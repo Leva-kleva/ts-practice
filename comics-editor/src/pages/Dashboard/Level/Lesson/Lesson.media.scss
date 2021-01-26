@@ -1,0 +1,128 @@
+@import '../../../../css/mixins';
+
+.Lesson {
+  @media (max-width: 2000px) {
+    @include styling-lessons(6);
+  }
+
+  @media (max-width: 1600px) {
+    @include styling-lessons(5);
+  }
+
+  @media (max-width: 1400px) {
+    @include styling-lessons(4);
+  }
+
+  @media (max-width: 1000px) {
+    @include styling-lessons(3);
+    &:nth-child(6n) {
+      margin-right: 0;
+    }
+  }
+
+  @media (max-width: 923px) {
+    &-index {
+      font-size: 50px;
+      line-height: 60px;
+    }
+
+    &-suptitle {
+      font-size: 25px;
+      line-height: 30px;
+    }
+  }
+
+  &-btn {
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  @media (max-width: 900px) {
+    .nav-link-reset {
+      margin-bottom: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    $height: 229px;
+    $margin: 17px;
+    height: $height;
+
+    &-wrapper {
+      height: calc(#{$height} - #{$margin} * 2);
+    }
+
+    &-index {
+      font-size: 50px;
+      line-height: 60px;
+    }
+
+    &-suptitle {
+      font-size: 25px;
+      line-height: 30px;
+    }
+
+    &-title,
+    &-btn {
+      font-size: 12px;
+      line-height: 14px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    @include styling-lessons(2);
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+
+    &:nth-child(5) {
+      margin-right: 2%;
+    }
+  }
+
+  @media (max-width: 450px) {
+    @include styling-lessons(1);
+    max-width: 200px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+
+    &:nth-child(n) {
+      margin-right: auto;
+    }
+
+    $height: 200px;
+    $margin: 16px;
+    height: $height;
+
+    &-index {
+      font-size: 50px;
+      line-height: 60px;
+    }
+
+    &-suptitle {
+      font-size: 25px;
+      line-height: 30px;
+      &:after {
+        margin-top: 6px;
+        margin-bottom: 6px;
+      }
+    }
+
+    &-title {
+      font-size: 14px;
+      line-height: 16px;
+    }
+
+    &-btn {
+      font-size: 12px;
+      line-height: 14px;
+    }
+
+    &-wrapper {
+      margin-top: 8px;
+      $height: 200px;
+      $margin: 16px;
+      height: calc(#{$height} - #{$margin} * 2 + 8px);
+    }
+  }
+}

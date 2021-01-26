@@ -1,0 +1,119 @@
+.Level {
+  @media (max-width: 2440px) {
+    &__title {
+      margin-bottom: 10px;
+    }
+
+    &__description {
+      font-size: 22px;
+    }
+  }
+  @media (max-width: 1800px) {
+    &__description {
+      font-size: 20px;
+    }
+  }
+
+  @media (min-width: 1800px) {
+    max-width: 80vw;
+  }
+
+  @media (max-width: 1010px) {
+    &__flex-wrapper {
+      flex-direction: column;
+    }
+
+    &-wrapper {
+      margin: 0 13px;
+    }
+
+    &__info {
+      margin-top: 13px;
+      min-height: 77px;
+    }
+
+    &__button {
+      margin-top: 18px;
+      max-width: 145px;
+      min-width: 145px;
+      margin-left: 82px;
+      height: 31px;
+      font-size: 15px;
+      line-height: 18px;
+    }
+
+    &__img {
+      width: 58px;
+      height: 58px;
+    }
+
+    &__info-wrapper {
+      min-height: 64px;
+    }
+
+    &__title {
+      font-size: 16px;
+      line-height: 19px;
+    }
+
+    &__description {
+      font-size: 14px;
+      line-height: 16px;
+      max-width: 660px;
+    }
+  }
+
+  @media (max-width: 835px) {
+    &__flex-wrapper {
+      height: 159px;
+    }
+
+    &__description {
+      font-size: 15px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    margin-bottom: 18px;
+  }
+
+  @media (max-width: 640px) {
+    &__flex-wrapper {
+      height: 180px;
+    }
+  }
+
+  @media (max-width: 548px) {
+    &__flex-wrapper {
+      height: 190px;
+    }
+  }
+
+  @media (max-width: 492px) {
+    &__flex-wrapper {
+      height: 210px;
+    }
+
+    &__img {
+      width: 68px;
+      height: 68px;
+    }
+
+    &__button {
+      margin-left: 92px;
+    }
+
+    &__description {
+      font-size: 11px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    &__button {
+      margin: 0 auto;
+    }
+    &__flex-wrapper {
+      height: 290px;
+    }
+  }
+}

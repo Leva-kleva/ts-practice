@@ -1,0 +1,34 @@
+.Dashboard {
+  &-title {
+    @media (max-width: 1010px) {
+      font-size: 30px;
+      line-height: 35px;
+    }
+
+    @media (max-width: 470px) {
+      font-size: 20px;
+      line-height: 16px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding-top: 23px;
+
+    &-title {
+      margin-bottom: 30px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding-top: 18px;
+    padding-left: 1px;
+  }
+
+  @media (max-width: 375px) {
+    &-title {
+      margin-bottom: 20px;
+      font-size: 14px;
+      line-height: 16px;
+    }
+  }
+}

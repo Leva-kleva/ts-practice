@@ -1,0 +1,15 @@
+.Dashboard {
+  padding-top: 43px;
+  padding-left: 40px;
+
+  &-title {
+    font-family: 'Nunito';
+    font-weight: 800;
+    font-size: 40px;
+    line-height: 47px;
+    color: #000000;
+    margin-bottom: 51px;
+  }
+}
+
+@import './Dashboard.media.scss';

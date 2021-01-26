@@ -1,0 +1,96 @@
+@import './variables';
+
+@mixin chess-border-radius {
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+@mixin chess-border {
+  border: 1px solid #848484;
+}
+
+@mixin button-setup {
+  padding: 8px 50px;
+  box-sizing: border-box;
+  outline: 0;
+  border-radius: 5px;
+  color: #fff;
+  border: 0;
+  border: 1px solid transparent;
+
+  &:hover {
+    box-shadow: 2px 2px 5px #999;
+    cursor: pointer;
+  }
+
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+@mixin button-hover-color-change($color) {
+  &:hover {
+    @if ($color == white) {
+      background-color: $main-blue-color;
+      color: white;
+    } @else {
+      @if ($color == orange) {
+        background-color: $main-orange-color;
+        color: white;
+      } @else {
+        border-color: $color;
+        color: $color;
+        background-color: #fff;
+      }
+    }
+  }
+}
+
+@mixin proportional-divider($divider) {
+  $width: calc(1920px / #{$divider});
+
+  width: $width;
+  height: calc(1080px / #{$divider});
+  margin-left: calc((100% - #{$width}) / 2);
+}
+
+@mixin cancel-margin($parts, $margin) {
+  &:nth-child(#{$parts}n) {
+    margin-right: 0;
+  }
+
+  &:nth-child(#{$parts + 1}n) {
+    margin-right: $margin;
+  }
+}
+
+@mixin styling-stats($parts) {
+  $margin: 20px;
+  $lastMarginToItemWidth: $margin / $parts;
+
+  margin-right: $margin;
+  width: calc(100% / #{$parts} - #{$margin} + #{$lastMarginToItemWidth});
+
+  @include cancel-margin($parts, $margin);
+}
+
+@mixin styling-lessons($parts) {
+  $marginSpacing: $parts * 1%;
+  $widthWithoutMargins: 100% - $marginSpacing;
+  $width: $widthWithoutMargins / $parts;
+  $margin: $marginSpacing / ($parts - 1);
+
+  width: $width;
+  margin: 0 $margin $margin 0;
+
+  @include cancel-margin($parts, $margin);
+
+  @if ($parts != 7) {
+    &:nth-child(7n) {
+      margin-right: $margin;
+    }
+  }
+}
