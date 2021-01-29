@@ -13,7 +13,7 @@ enum DashboardActionTypes {
 export type DashboardReducerState = {
   data: any;
   accountInfo: any;
-  accountImage: any;
+  // accountImage: any;
   selectedlevel: {
     levelIndex: number | null;
     lessonIndex: number | null;
