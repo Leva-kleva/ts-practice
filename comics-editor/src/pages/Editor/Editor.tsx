@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -12,8 +12,10 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { uploadImage } from '../../services/uploadImage';
 import { uploadMarkdown } from '../../services/uploadMarkdown';
+import { fetchData } from '../../redux/ducks/dashboard';
 import 'react-quill/dist/quill.snow.css';
 import './Editor.scss';
+import { getComicsMarkdown } from '../../services/getComicsMarkdown';
 
 //@ts-ignore
 const Quill = ReactQuill.Quill;
@@ -21,8 +23,17 @@ var Font = Quill.import('formats/font');
 Font.whitelist = ['Nunito', 'Roboto', 'Raleway', 'Montserrat', 'Lato', 'Rubik'];
 Quill.register(Font, true);
 
-export const Editor = () => {
+export const Editor: React.FC = () => {
   let location = useLocation();
+  const pathArray = useMemo(() => location.pathname.split('/'), [
+    location.pathname,
+  ]);
+  const level = useMemo(() => pathArray[pathArray.length - 2], [
+    location.pathname,
+  ]);
+  const lesson = useMemo(() => pathArray[pathArray.length - 1], [
+    location.pathname,
+  ]);
   const [isDesktop, setIsDesktop] = useState<boolean>(true);
   const { storedValues } = useSelector((state: any) => state.editorReducer);
   const [values, setValues] = useState<any>(storedValues ? storedValues : []);
@@ -30,7 +41,10 @@ export const Editor = () => {
   const [counterImage, setCounterImage] = useState<number>(0);
   const [currentInput, setCurrentInput] = useState<number>(0);
   const [imageLink, setImageLink] = useState<string>('~~upload smth~~');
+  const [markdownDesktop, setMarkdownDesktop] = useState<any>(null);
+  const [markdownMobile, setMarkdownMobile] = useState<any>(null);
   const dispatch = useDispatch();
+  const { data } = useSelector((state: any) => state.dashboardReducer);
 
   const modules = {
     toolbar: [
@@ -73,6 +87,7 @@ export const Editor = () => {
 
   const handleChange = () => {
     setIsDesktop((isDesktop) => !isDesktop);
+    setValues([]);
   };
 
   const handleInputImageChange = (event: any) => {
@@ -129,6 +144,26 @@ export const Editor = () => {
       setValues(() => [...values, { type: 'image', value: '' }]);
   }, [counterImage]);
 
+  useEffect(() => {
+    if (isDesktop && markdownDesktop?.length) setValues([...markdownDesktop]);
+    if (!isDesktop && markdownMobile?.length) setValues([...markdownMobile]);
+  }, [isDesktop, markdownMobile, markdownDesktop]);
+
+  useEffect(() => {
+    const getData = async () => {
+      if (!data) {
+        dispatch(fetchData());
+      }
+      const response = await getComicsMarkdown(Number(level), Number(lesson));
+      if (response) {
+        setMarkdownDesktop(response?.desktop_comics);
+        setMarkdownMobile(response?.mobile_comics);
+      }
+    };
+
+    getData();
+  }, []);
+
   const onImageChange = async (event: any) => {
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];
@@ -151,9 +186,6 @@ export const Editor = () => {
 
   const handleSend = async () => {
     console.log(values);
-    const pathArray = location.pathname.split('/');
-    const level = pathArray[pathArray.length - 2];
-    const lesson = pathArray[pathArray.length - 1];
     const response = await uploadMarkdown(
       {
         comics: values,
@@ -193,6 +225,11 @@ export const Editor = () => {
           }
           label="Mobile"
         />
+        {data && (
+          <h1 style={{ textAlign: 'center', marginBottom: '10px' }}>
+            {data[level]?.lessons[Number(lesson) - 1]?.name}
+          </h1>
+        )}
         {values.map((el: any, i: number) => (
           <div style={{ marginBottom: '25px' }} key={`key-${i}`}>
             {el.type === 'quill' ? (
