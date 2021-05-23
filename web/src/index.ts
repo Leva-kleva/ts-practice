@@ -6,4 +6,8 @@ const user = new User({ id: 1 });
 
 user.set({ name: 'new', age: 124 });
 
-user.save();
+user.events.on('change', () => {
+  console.log('124124');
+});
+
+user.events.trigger('change');
