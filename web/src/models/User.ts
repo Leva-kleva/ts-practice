@@ -1,6 +1,7 @@
 import { Eventing } from './Eventing';
 import { Sync } from './Sync';
 import { API_URL } from '..';
+import { Attributes } from './Attributes';
 
 interface UserProps {
   name?: string;
@@ -11,14 +12,9 @@ interface UserProps {
 export class User {
   public sync: Sync<UserProps> = new Sync<UserProps>(`${API_URL}/users`);
   public events: Eventing = new Eventing();
+  public attributes: Attributes<UserProps>;
 
-  constructor(private data: UserProps) {}
-
-  get(propName: string): string | number {
-    return this.data[propName];
-  }
-
-  set(update: Partial<UserProps>): void {
-    Object.assign(this.data, update);
+  constructor(attrs: UserProps) {
+    this.attributes = new Attributes<UserProps>(attrs);
   }
 }
