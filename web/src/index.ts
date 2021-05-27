@@ -1,12 +1,5 @@
-import { Collection } from './models/Collection';
-import { User, UserProps } from './models/User';
+import { UserForm } from './views/UserForm';
 
-export const API_URL = 'http://localhost:3000';
+const userForm = new UserForm(document.getElementById('root'));
 
-const collection = User.buildUserCollection();
-
-collection.on('change', () => {
-  console.log(collection);
-});
-
-collection.fetch();
+userForm.render();
