@@ -9,6 +9,7 @@ import {
   LibraryBooks,
   MenuBook,
   Message,
+  Recommend,
   ViewList,
 } from '@mui/icons-material';
 import { ROUTE_NAMES } from '../../../constants/routeNames';
@@ -20,6 +21,7 @@ const {
   searchBook,
   talkToExperts,
   wishList,
+  recommendedBooks,
 } = ROUTE_NAMES.AUTHORISET;
 
 export const mainListItems = (handleRoute: (pathname: string) => void) => (
@@ -59,6 +61,13 @@ export const secondaryListItems = (handleRoute: (pathname: string) => void) => (
         <LibraryBooks />
       </ListItemIcon>
       <ListItemText primary="Поиск книги" />
+    </ListItem>
+
+    <ListItem button onClick={() => handleRoute(recommendedBooks)}>
+      <ListItemIcon>
+        <Recommend />
+      </ListItemIcon>
+      <ListItemText primary="Для Вас" />
     </ListItem>
 
     <ListItem button onClick={() => handleRoute(talkToExperts)}>

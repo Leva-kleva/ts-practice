@@ -17,7 +17,6 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { AddBookToWishList } from './AddBookToWishList';
 import { deleteSelectedBooksFromWish } from '../../services/deleteSelectedBooksFromWish';
@@ -249,16 +248,10 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           Wish-лист
         </Typography>
       )}
-      {numSelected > 0 ? (
+      {numSelected > 0 && (
         <Tooltip title="Delete">
           <IconButton onClick={handleDelete}>
             <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
           </IconButton>
         </Tooltip>
       )}
