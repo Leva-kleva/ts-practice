@@ -13,7 +13,7 @@ import {
 } from '@mui/icons-material';
 import { ROUTE_NAMES } from '../../constants/routeNames';
 
-const { dashboard, statistics, achievements, search, talkToExperts } =
+const { dashboard, statistics, achievements, searchBook, talkToExperts } =
   ROUTE_NAMES.AUTHORISET;
 
 export const mainListItems = (handleRoute: (pathname: string) => void) => (
@@ -48,7 +48,7 @@ export const mainListItems = (handleRoute: (pathname: string) => void) => (
 export const secondaryListItems = (handleRoute: (pathname: string) => void) => (
   <div>
     <ListSubheader inset>Сервисы</ListSubheader>
-    <ListItem button onClick={() => handleRoute(search)}>
+    <ListItem button onClick={() => handleRoute(searchBook)}>
       <ListItemIcon>
         <LibraryBooks />
       </ListItemIcon>

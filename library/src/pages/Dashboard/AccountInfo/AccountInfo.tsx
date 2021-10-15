@@ -4,7 +4,9 @@ import Grid from '@mui/material/Grid';
 import { onChangeHandler } from '../../Authentication/authentication.utils';
 import InputMask from 'react-input-mask';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import { checkUserName, emptyChecker } from '../../../utils/utils';
+import { updateAccountDataApi } from '../../../services/updateAccountDataApi';
 
 type AccountInfoProps = {};
 
@@ -12,11 +14,30 @@ export const AccountInfo: React.FC<AccountInfoProps> = ({}) => {
   const handleChange = onChangeHandler;
   const [name, setName] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
-  const [errorName, setErrorName] = useState<boolean>(false);
-  const [errorAddress, setErrorAddress] = useState<boolean>(false);
-  const [address, setAddress] = useState<boolean>(false);
+  const [address, setAddress] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const voidFunc = () => {};
+  const handleUpdateAccountInfo = async () => {
+    if (!emptyChecker(name)) {
+      setErrorMessage('Введите ФИО');
+    }
+    if (!emptyChecker(address)) {
+      setErrorMessage('Введите адрес');
+    }
+    if (!errorMessage && name.trim() && address.trim() && phone) {
+      const response = await updateAccountDataApi({
+        name,
+        phone,
+        address,
+      });
+
+      if (response) {
+        //fetchAccountData
+      } else {
+        setErrorMessage('Проблемы с сервером, попробуйте позже');
+      }
+    }
+  };
   return (
     <Box>
       <Grid container spacing={3}>
@@ -26,13 +47,14 @@ export const AccountInfo: React.FC<AccountInfoProps> = ({}) => {
             placeholder="Введите ФИО"
             variant="outlined"
             fullWidth
-            error={errorName}
+            value={name}
+            error={!!errorMessage && !name}
             onChange={(event) =>
               handleChange(
                 event,
                 setName,
                 checkUserName,
-                setErrorName,
+                voidFunc,
                 setErrorMessage
               )
             }
@@ -64,20 +86,33 @@ export const AccountInfo: React.FC<AccountInfoProps> = ({}) => {
         <Grid xs={6} item>
           <TextField
             label="Адрес"
+            value={address}
+            error={!!errorMessage && !address}
             placeholder="Введите адрес"
             variant="outlined"
             fullWidth
-            error={errorName}
             onChange={(event) =>
               handleChange(
                 event,
                 setAddress,
                 emptyChecker,
-                setErrorAddress,
+                voidFunc,
                 setErrorMessage
               )
             }
           />
+        </Grid>
+        <Grid xs={6} item sx={{ position: 'relative' }}>
+          <Grid item sx={{ color: 'rgb(255, 0, 0)' }}>
+            {errorMessage}
+          </Grid>
+          <Button
+            variant="outlined"
+            sx={{ position: 'absolute', right: 0, bottom: 0 }}
+            onClick={handleUpdateAccountInfo}
+          >
+            Обновить личные данные
+          </Button>
         </Grid>
       </Grid>
     </Box>
