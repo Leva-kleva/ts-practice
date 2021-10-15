@@ -13,8 +13,14 @@ import {
 } from '@mui/icons-material';
 import { ROUTE_NAMES } from '../../constants/routeNames';
 
-const { dashboard, statistics, achievements, searchBook, talkToExperts } =
-  ROUTE_NAMES.AUTHORISET;
+const {
+  dashboard,
+  statistics,
+  achievements,
+  searchBook,
+  talkToExperts,
+  wishList,
+} = ROUTE_NAMES.AUTHORISET;
 
 export const mainListItems = (handleRoute: (pathname: string) => void) => (
   <div>
@@ -36,7 +42,7 @@ export const mainListItems = (handleRoute: (pathname: string) => void) => (
       </ListItemIcon>
       <ListItemText primary="Достижения" />
     </ListItem>
-    <ListItem button onClick={() => handleRoute(achievements)}>
+    <ListItem button onClick={() => handleRoute(wishList)}>
       <ListItemIcon>
         <ViewList />
       </ListItemIcon>

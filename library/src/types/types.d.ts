@@ -8,7 +8,7 @@ type AppState = {
 
 type AuthenticationReducerState = {
   isAuthenticated: boolean;
-  userData: {};
+  accountInfo: { [key: string]: string };
   inputFieldsState: {
     userName: string | boolean | null;
     password: string | boolean | null;

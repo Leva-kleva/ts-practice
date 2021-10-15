@@ -2,38 +2,34 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { onChangeHandler } from '../../Authentication/authentication.utils';
-import InputMask from 'react-input-mask';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { checkUserName, emptyChecker } from '../../../utils/utils';
-import { updateAccountDataApi } from '../../../services/updateAccountDataApi';
+import { addBookToWishList } from '../../../services/addBookToWishList';
 import { useDispatch } from 'react-redux';
 import { fetchAccountData } from '../../../redux/ducks/authentication';
 
-type AccountInfoProps = {};
+type AddBookToWishListProps = {};
 
-export const AccountInfo: React.FC<AccountInfoProps> = ({}) => {
+export const AddBookToWishList: React.FC<AddBookToWishListProps> = ({}) => {
   const dispatch = useDispatch();
   const handleChange = onChangeHandler;
   const [name, setName] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
+  const [author, setAuthor] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const voidFunc = () => {};
   const handleUpdateAccountInfo = async () => {
     if (!emptyChecker(name)) {
-      setErrorMessage('Введите ФИО');
+      setErrorMessage('Введите название книги');
     }
-    if (!emptyChecker(address)) {
-      setErrorMessage('Введите адрес');
+    if (!emptyChecker(author)) {
+      setErrorMessage('Введите автора');
     }
-    if (!errorMessage && name.trim() && address.trim() && phone) {
-      const response = await updateAccountDataApi({
+    if (!errorMessage && name.trim() && author.trim()) {
+      const response = await addBookToWishList({
         name,
-        phone,
-        address,
+        author,
       });
-
       if (response) {
         dispatch(fetchAccountData());
       } else {
@@ -44,10 +40,13 @@ export const AccountInfo: React.FC<AccountInfoProps> = ({}) => {
   return (
     <Box>
       <Grid container spacing={3}>
+        <Grid xs={12} item>
+          Добавить книгу в wish-лист
+        </Grid>
         <Grid xs={6} item>
           <TextField
-            label="ФИО"
-            placeholder="Введите ФИО"
+            label="Название книги"
+            placeholder="Введите название книги"
             variant="outlined"
             fullWidth
             value={name}
@@ -65,58 +64,39 @@ export const AccountInfo: React.FC<AccountInfoProps> = ({}) => {
           />
         </Grid>
         <Grid xs={6} item>
-          <InputMask
-            mask="+7 (999) 999 99 99"
-            value={phone}
-            disabled={false}
-            maskChar=" "
-            onChange={(event) =>
-              handleChange(event, setPhone, voidFunc, voidFunc, setErrorMessage)
-            }
-          >
-            {() => (
-              <TextField
-                label="Телефон"
-                placeholder="+7 (***) ***-**-**"
-                variant="outlined"
-                fullWidth
-              />
-            )}
-          </InputMask>
-        </Grid>
-      </Grid>
-      <Grid container spacing={3}>
-        <Grid xs={6} item>
           <TextField
-            label="Адрес"
-            value={address}
-            error={!!errorMessage && !address}
-            placeholder="Введите адрес"
+            label="Автор"
+            placeholder="Введите автора"
             variant="outlined"
             fullWidth
+            value={author}
+            error={!!errorMessage && !author}
             onChange={(event) =>
               handleChange(
                 event,
-                setAddress,
-                emptyChecker,
+                setAuthor,
+                checkUserName,
                 voidFunc,
                 setErrorMessage
               )
             }
+            sx={{ marginBottom: '20px' }}
           />
         </Grid>
-        <Grid xs={6} item sx={{ position: 'relative' }}>
+      </Grid>
+      <Grid container spacing={1} sx={{ position: 'relative' }}>
+        <Grid xs={6} item>
           <Grid item sx={{ color: 'rgb(255, 0, 0)' }}>
             {errorMessage}
           </Grid>
-          <Button
-            variant="outlined"
-            sx={{ position: 'absolute', right: 0, bottom: 0 }}
-            onClick={handleUpdateAccountInfo}
-          >
-            Обновить личные данные
-          </Button>
         </Grid>
+        <Button
+          variant="outlined"
+          onClick={handleUpdateAccountInfo}
+          sx={{ position: 'absolute', right: 0, bottom: '-40px' }}
+        >
+          Добавить
+        </Button>
       </Grid>
     </Box>
   );
