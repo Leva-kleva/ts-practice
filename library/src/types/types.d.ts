@@ -20,6 +20,7 @@ type CommonReducerState = {
   isAlertOpen: boolean;
   alertSeverity: AlertSeverity;
   alertBody: string;
+  alertTitle: string;
 };
 
 type AlertSeverity = 'error' | 'warning' | 'info' | 'success';

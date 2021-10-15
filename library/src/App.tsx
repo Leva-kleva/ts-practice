@@ -21,6 +21,7 @@ import { SearchBook } from './pages/SearchBook';
 import { TalkToExperts } from './pages/TalkToExperts';
 import { ResultBooks } from './pages/ResultPage';
 import { PureAlert } from './components/PureAlert';
+import { setOpenAlert } from './redux/ducks/common';
 
 const App = () => {
   const [isLoaded, setLoadedState] = useState(false);
@@ -28,7 +29,11 @@ const App = () => {
   const { isAuthenticated } = useSelector(
     (state: AppState) => state.authenticationReducer
   );
+  const { isAlertOpen, alertBody, alertTitle } = useSelector(
+    (state: AppState) => state.commonReducer
+  );
   const [open, setOpen] = useState<boolean>(true);
+  const [timerId, setTimerId] = useState<NodeJS.Timeout>(null as any);
 
   useEffect(() => {
     const async = async () => {
@@ -41,6 +46,17 @@ const App = () => {
     setLoadedState(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (isAlertOpen) {
+      if (timerId) clearTimeout(timerId);
+      const newTimerId = setTimeout(() => {
+        dispatch(setOpenAlert(false));
+      }, 4000);
+      setTimerId(newTimerId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAlertOpen, alertBody, alertTitle]);
 
   const renderRoutes = () => {
     const { AUTHORISET, root, wrongPage, signin, signup } = ROUTE_NAMES;
@@ -101,7 +117,7 @@ const App = () => {
   return (
     <div className="App">
       {isLoaded ? renderRoutes() : <Loader />}
-      <PureAlert title="Что-то пошло не так" />
+      <PureAlert />
     </div>
   );
 };

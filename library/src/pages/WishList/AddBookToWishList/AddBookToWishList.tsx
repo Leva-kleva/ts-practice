@@ -8,6 +8,12 @@ import { checkUserName, emptyChecker } from '../../../utils/utils';
 import { addBookToWishList } from '../../../services/addBookToWishList';
 import { useDispatch } from 'react-redux';
 import { fetchAccountData } from '../../../redux/ducks/authentication';
+import {
+  setAlertBody,
+  setAlertSeverity,
+  setAlertTitle,
+  setOpenAlert,
+} from '../../../redux/ducks/common';
 
 type AddBookToWishListProps = {};
 
@@ -32,6 +38,10 @@ export const AddBookToWishList: React.FC<AddBookToWishListProps> = ({}) => {
       });
       if (response) {
         dispatch(fetchAccountData());
+        dispatch(setAlertSeverity('success'));
+        dispatch(setOpenAlert(true));
+        dispatch(setAlertBody(`Книга ${name} была успешно добавлена`));
+        dispatch(setAlertTitle('Получилось!'));
       } else {
         setErrorMessage('Проблемы с сервером, попробуйте позже');
       }

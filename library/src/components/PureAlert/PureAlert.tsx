@@ -18,13 +18,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-type PureAlertProps = {
-  title?: string;
-};
+type PureAlertProps = {};
 
-export const PureAlert: React.FC<PureAlertProps> = ({ title }) => {
+export const PureAlert: React.FC<PureAlertProps> = () => {
   const dispatch = useDispatch();
-  const { alertSeverity, alertBody, isAlertOpen } = useSelector(
+  const { alertSeverity, alertBody, isAlertOpen, alertTitle } = useSelector(
     (state: AppState) => state.commonReducer
   );
   const classes = useStyles();
@@ -36,7 +34,7 @@ export const PureAlert: React.FC<PureAlertProps> = ({ title }) => {
         variant="filled"
         classes={{ root: 'PureAlert-root' }}
       >
-        {title && <AlertTitle>{title}</AlertTitle>}
+        <AlertTitle>{alertTitle}</AlertTitle>
         {alertBody}
       </Alert>
     </div>

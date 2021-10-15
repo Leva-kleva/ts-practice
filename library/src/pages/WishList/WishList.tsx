@@ -25,6 +25,7 @@ import { fetchAccountData } from '../../redux/ducks/authentication';
 import {
   setAlertBody,
   setAlertSeverity,
+  setAlertTitle,
   setOpenAlert,
 } from '../../redux/ducks/common';
 
@@ -211,6 +212,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       dispatch(setAlertSeverity('error'));
       dispatch(setOpenAlert(true));
       dispatch(setAlertBody('Не удалось удалить, попробуйте позже'));
+      dispatch(setAlertTitle('Что-то пошло не так'));
     }
   };
 

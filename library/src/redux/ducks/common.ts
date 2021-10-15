@@ -4,18 +4,32 @@ enum CommonTypes {
   SET_OPEN_ALERT = 'common/SET_OPEN_ALERT',
   SET_ALERT_SEVERITY = 'common/SET_ALERT_SEVERITY',
   SET_ALERT_BODY = 'common/SET_ALERT_BODY',
+  SET_ALERT_TITLE = 'common/SET_ALERT_TITLE',
 }
 
 const initialState: CommonReducerState = {
   isAlertOpen: false,
   alertSeverity: 'info',
   alertBody: '',
+  alertTitle: '',
+};
+
+type setAlertTitleAction = {
+  type: CommonTypes.SET_ALERT_TITLE;
+  title: string;
 };
 
 type setOpenAlertAction = {
   type: CommonTypes.SET_OPEN_ALERT;
   open: boolean;
 };
+
+export const setAlertTitle: ActionCreator<setAlertTitleAction> = (
+  title: string
+) => ({
+  type: CommonTypes.SET_ALERT_TITLE,
+  title,
+});
 
 export const setOpenAlert: ActionCreator<setOpenAlertAction> = (
   open: boolean
@@ -51,13 +65,19 @@ export const setAlertBody: ActionCreator<setAlertBodyAction> = (
 type CommonActions =
   | setAlertBodyAction
   | setAlertSeverityAction
-  | setOpenAlertAction;
+  | setOpenAlertAction
+  | setAlertTitleAction;
 
 export const commonReducer: Reducer<CommonReducerState, CommonActions> = (
   state = initialState,
   action
 ) => {
   switch (action.type) {
+    case CommonTypes.SET_ALERT_TITLE:
+      return {
+        ...state,
+        alertTitle: action.title,
+      };
     case CommonTypes.SET_ALERT_BODY:
       return {
         ...state,
