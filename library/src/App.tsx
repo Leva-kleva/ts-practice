@@ -19,7 +19,7 @@ import { Achievements } from './pages/Achievements';
 import { WishList } from './pages/WishList';
 import { SearchBook } from './pages/SearchBook';
 import { TalkToExperts } from './pages/TalkToExperts';
-import ResultPage from './pages/ResultPage';
+import { ResultBooks } from './pages/ResultPage';
 
 const App = () => {
   const [isLoaded, setLoadedState] = useState(false);
@@ -81,7 +81,7 @@ const App = () => {
             {withAppTools(<TalkToExperts />)}
           </Route>
           <Route exact path={resultPage}>
-            {withAppTools(<ResultPage />)}
+            {withAppTools(<ResultBooks />)}
           </Route>
           <Route path={wrongPage} component={PageNotFound} />
         </Switch>
