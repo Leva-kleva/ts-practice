@@ -1,0 +1,17 @@
+.Header {
+  margin-left: 50%;
+  transform: translate(-50%, 0);
+  font-size: 30px;
+  background-image: linear-gradient(
+    to top,
+    #0c3483 0%,
+    #a2b6df 100%,
+    #6b8cce 100%,
+    #a2b6df 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+  padding-top: 20px;
+  display: inline-block;
+}
