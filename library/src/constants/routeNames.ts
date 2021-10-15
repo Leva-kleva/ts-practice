@@ -1,13 +1,15 @@
 export const ROUTE_NAMES = {
   AUTHORISET: {
-    // newSearch: '/',
     resultPage: '/result',
     dashboard: '/',
     statistics: '/statistics',
     achievements: '/achievements',
-    search: '/search',
+    searchBook: '/search',
     talkToExperts: '/talk-to-experts',
+    wishList: '/wish-list',
   },
+  signin: '/signin',
+  signup: '/signup',
   root: '/',
   wrongPage: '*',
 };

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
 import { Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTokenFromLocalStorage } from './utils/utils';
-// import checkToken from './services/checkToken';
 import { setAuthenticationState } from './redux/ducks/authentication';
 import { ROUTE_NAMES } from './constants/routeNames';
 import './App.scss';
@@ -12,13 +10,16 @@ import Signup from './pages/Authentication/Signup';
 import Signin from './pages/Authentication/Signin';
 import PageNotFound from './pages/PageNotFound';
 import WelcomePage from './pages/WelcomePage';
-// import ResultPage from './pages/ResultPage';
-// import SearchForm from './pages/SearchForm';
 
 import Loader from './components/Loader';
 import { Dashboard } from './pages/Dashboard';
-import { AppHeader } from './components/AppHeader';
-import { Sidebar } from './components/Sidebar';
+import { AppToolsWrapper } from './hocs/withAppTools/withAppTools';
+import { Statistics } from './pages/Statistics';
+import { Achievements } from './pages/Achievements';
+import { WishList } from './pages/WishList';
+import { SearchBook } from './pages/SearchBook';
+import { TalkToExperts } from './pages/TalkToExperts';
+import ResultPage from './pages/ResultPage';
 
 const App = () => {
   const [isLoaded, setLoadedState] = useState(false);
@@ -32,8 +33,6 @@ const App = () => {
     const async = async () => {
       getTokenFromLocalStorage();
       if (window.token && !isAuthenticated) {
-        // const result = await checkToken();
-        // if (result.detail !== 'Invalid token.')
         dispatch(setAuthenticationState(true));
       }
     };
@@ -43,21 +42,47 @@ const App = () => {
   }, [isAuthenticated]);
 
   const renderRoutes = () => {
-    const { AUTHORISET, root, wrongPage } = ROUTE_NAMES;
-    const { resultPage, dashboard } = AUTHORISET;
+    const { AUTHORISET, root, wrongPage, signin, signup } = ROUTE_NAMES;
+    const {
+      dashboard,
+      statistics,
+      resultPage,
+      achievements,
+      wishList,
+      searchBook,
+      talkToExperts,
+    } = AUTHORISET;
+
+    const withAppTools = (Elem: JSX.Element) => (
+      <AppToolsWrapper projectileProps={{ open, setOpen }}>
+        {Elem}
+      </AppToolsWrapper>
+    );
 
     if (!isAuthenticated) {
       return (
         <Switch>
-          <Box sx={{ display: 'flex' }}>
-            <AppHeader open={open} setOpen={setOpen} />
-
-            <Sidebar open={open} setOpen={setOpen} />
-
-            {/* <Route exact path={resultPage} component={ResultPage} />
-          <Route exact path={newSearch} component={SearchForm} /> */}
-            <Route exact path={dashboard} component={Dashboard} />
-          </Box>
+          <Route exact path={dashboard}>
+            {withAppTools(<Dashboard />)}
+          </Route>
+          <Route exact path={statistics}>
+            {withAppTools(<Statistics />)}
+          </Route>
+          <Route exact path={achievements}>
+            {withAppTools(<Achievements />)}
+          </Route>
+          <Route exact path={wishList}>
+            {withAppTools(<WishList />)}
+          </Route>
+          <Route exact path={searchBook}>
+            {withAppTools(<SearchBook />)}
+          </Route>
+          <Route exact path={talkToExperts}>
+            {withAppTools(<TalkToExperts />)}
+          </Route>
+          <Route exact path={resultPage}>
+            {withAppTools(<ResultPage />)}
+          </Route>
           <Route path={wrongPage} component={PageNotFound} />
         </Switch>
       );
@@ -65,8 +90,8 @@ const App = () => {
     return (
       <Switch>
         <Route exact path={root} component={WelcomePage} />
-        <Route path="/signin" component={Signin} />
-        <Route path="/signup" component={Signup} />
+        <Route path={signin} component={Signin} />
+        <Route path={signup} component={Signup} />
         <Route path={wrongPage} component={PageNotFound} />
       </Switch>
     );
