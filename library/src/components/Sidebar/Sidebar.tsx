@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import { IconButton, Toolbar, Divider, List } from '@mui/material';
 import { ChevronLeft } from '@mui/icons-material';
 import MuiDrawer from '@mui/material/Drawer';
-import { mainListItems, secondaryListItems } from '../../components/ListItems';
+import { mainListItems, secondaryListItems } from './ListItems';
 import { drawerWidth } from '../AppHeader/AppHeader';
 
 const Drawer = styled(MuiDrawer, {

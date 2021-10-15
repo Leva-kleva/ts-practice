@@ -24,7 +24,6 @@ export const checkUserPassword = (password: string) => {
 
 export const checkUserName = (field: string) => {
   const regexp = /(-?([A-Z].\s)?([A-Z][a-z]+)\s?)+([A-Z]'([A-Z][a-z]+))?/g;
-  console.log(regexp.test(field));
   return regexp.test(field);
 };
 

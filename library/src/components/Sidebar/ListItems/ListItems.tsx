@@ -11,7 +11,7 @@ import {
   Message,
   ViewList,
 } from '@mui/icons-material';
-import { ROUTE_NAMES } from '../../constants/routeNames';
+import { ROUTE_NAMES } from '../../../constants/routeNames';
 
 const {
   dashboard,

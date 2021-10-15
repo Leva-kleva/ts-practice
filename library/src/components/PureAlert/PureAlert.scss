@@ -1,0 +1,14 @@
+.PureAlert {
+  &-root {
+    position: fixed;
+    top: 5px;
+    right: 25px;
+    z-index: 100000;
+
+    @media (max-width: 959px) {
+      top: 55px;
+      right: 5px;
+      max-width: 310px;
+    }
+  }
+}

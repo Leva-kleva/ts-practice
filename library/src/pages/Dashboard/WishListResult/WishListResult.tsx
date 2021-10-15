@@ -48,7 +48,7 @@ function Orders() {
       <Link
         color="primary"
         onClick={() => history.push(wishList)}
-        sx={{ position: 'absolute', right: 0, bottom: '-40px' }}
+        sx={{ position: 'absolute', right: 0, bottom: '-60px' }}
       >
         Посмотреть все книги в wish-листе
       </Link>
@@ -62,7 +62,7 @@ export const WishListResult: React.FC<WishListResultProps> = ({}) => {
   return (
     <Box>
       <Grid container spacing={1}>
-        <Grid item xs={12} sx={{ mt: 2 }}>
+        <Grid item xs={12} sx={{ mb: 1 }}>
           Ваш Wish лист
         </Grid>
       </Grid>

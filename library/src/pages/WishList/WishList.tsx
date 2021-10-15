@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Container, Paper } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -19,6 +20,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import { AddBookToWishList } from './AddBookToWishList';
+import { deleteSelectedBooksFromWish } from '../../services/deleteSelectedBooksFromWish';
+import { fetchAccountData } from '../../redux/ducks/authentication';
+import {
+  setAlertBody,
+  setAlertSeverity,
+  setOpenAlert,
+} from '../../redux/ducks/common';
 
 interface Data {
   id: number;
@@ -186,10 +194,25 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
+  selectedItems: Data[];
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const { numSelected } = props;
+  const dispatch = useDispatch();
+  const { numSelected, selectedItems } = props;
+  const handleDelete = async () => {
+    const deletingIndexes = selectedItems.map((item) => +item);
+    const response = await deleteSelectedBooksFromWish({
+      indexes: deletingIndexes,
+    });
+    if (response) {
+      dispatch(fetchAccountData());
+    } else {
+      dispatch(setAlertSeverity('error'));
+      dispatch(setOpenAlert(true));
+      dispatch(setAlertBody('Не удалось удалить, попробуйте позже'));
+    }
+  };
 
   return (
     <Toolbar
@@ -212,7 +235,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           variant="subtitle1"
           component="div"
         >
-          {numSelected} selected
+          {numSelected} выбрано
         </Typography>
       ) : (
         <Typography
@@ -226,7 +249,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={handleDelete}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -259,7 +282,7 @@ function EnhancedTable() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.title);
+      const newSelecteds = rows.map((n) => String(n.id));
       setSelected(newSelecteds);
       return;
     }
@@ -306,7 +329,10 @@ function EnhancedTable() {
   return (
     <Box sx={{ width: '100%', mt: 8 }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          selectedItems={selected as any}
+        />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -325,13 +351,13 @@ function EnhancedTable() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.title);
+                  const isItemSelected = isSelected(String(row.id));
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.title)}
+                      onClick={(event) => handleClick(event, String(row.id))}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -390,7 +416,7 @@ type WishListProps = {};
 
 export const WishList: React.FC<WishListProps> = ({}) => {
   return (
-    <Container maxWidth="lg" sx={{ height: '100vh', mt: 4 }}>
+    <Container maxWidth="lg" sx={{ mt: 4 }}>
       <EnhancedTable />
       <AddBookToWishList />
     </Container>

@@ -4,6 +4,7 @@ interface Window {
 
 type AppState = {
   authenticationReducer: AuthenticationReducerState;
+  commonReducer: CommonReducerState;
 };
 
 type AuthenticationReducerState = {
@@ -14,3 +15,11 @@ type AuthenticationReducerState = {
     password: string | boolean | null;
   };
 };
+
+type CommonReducerState = {
+  isAlertOpen: boolean;
+  alertSeverity: AlertSeverity;
+  alertBody: string;
+};
+
+type AlertSeverity = 'error' | 'warning' | 'info' | 'success';

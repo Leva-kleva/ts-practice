@@ -1,0 +1,1 @@
+export { PureAlert } from './PureAlert';

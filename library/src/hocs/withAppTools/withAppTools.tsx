@@ -16,7 +16,19 @@ export const AppToolsWrapper: React.FC<withAppToolsProps> = ({
 }) => {
   const { open, setOpen } = projectileProps;
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box
+      sx={{
+        backgroundColor: (theme) =>
+          theme.palette.mode === 'light'
+            ? theme.palette.grey[100]
+            : theme.palette.grey[900],
+        flexGrow: 1,
+
+        overflow: 'auto',
+        display: 'flex',
+        height: '100vh',
+      }}
+    >
       <AppHeader open={open} setOpen={setOpen} />
 
       <Sidebar open={open} setOpen={setOpen} />

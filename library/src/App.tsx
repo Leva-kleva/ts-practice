@@ -20,6 +20,7 @@ import { WishList } from './pages/WishList';
 import { SearchBook } from './pages/SearchBook';
 import { TalkToExperts } from './pages/TalkToExperts';
 import { ResultBooks } from './pages/ResultPage';
+import { PureAlert } from './components/PureAlert';
 
 const App = () => {
   const [isLoaded, setLoadedState] = useState(false);
@@ -97,6 +98,11 @@ const App = () => {
     );
   };
 
-  return <div className="App">{isLoaded ? renderRoutes() : <Loader />}</div>;
+  return (
+    <div className="App">
+      {isLoaded ? renderRoutes() : <Loader />}
+      <PureAlert title="Что-то пошло не так" />
+    </div>
+  );
 };
 export default App;
