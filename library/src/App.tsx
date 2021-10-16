@@ -19,9 +19,12 @@ import { Achievements } from './pages/Achievements';
 import { WishList } from './pages/WishList';
 import { SearchBook } from './pages/SearchBook';
 import { TalkToExperts } from './pages/TalkToExperts';
-import { ResultBooks } from './pages/ResultPage';
+import { ForYouPage } from './pages/ForYouPage';
 import { PureAlert } from './components/PureAlert';
 import { setOpenAlert } from './redux/ducks/common';
+import { CheckWishList } from './pages/Admin/CheckWish';
+import { BindBook } from './pages/Admin/BindBook';
+import { AllQuestions } from './pages/Admin/AllQuestions';
 
 const App = () => {
   const [isLoaded, setLoadedState] = useState(false);
@@ -59,16 +62,17 @@ const App = () => {
   }, [isAlertOpen, alertBody, alertTitle]);
 
   const renderRoutes = () => {
-    const { AUTHORISET, root, wrongPage, signin, signup } = ROUTE_NAMES;
+    const { AUTHORISET, ADMIN, root, wrongPage, signin, signup } = ROUTE_NAMES;
     const {
       dashboard,
       statistics,
-      resultPage,
+      recommendedBooks,
       achievements,
       wishList,
       searchBook,
       talkToExperts,
     } = AUTHORISET;
+    const { getAllQuestions, checkWish, bindBook } = ADMIN;
 
     const withAppTools = (Elem: JSX.Element) => (
       <AppToolsWrapper projectileProps={{ open, setOpen }}>
@@ -97,8 +101,17 @@ const App = () => {
           <Route exact path={talkToExperts}>
             {withAppTools(<TalkToExperts />)}
           </Route>
-          <Route exact path={resultPage}>
-            {withAppTools(<ResultBooks />)}
+          <Route exact path={recommendedBooks}>
+            {withAppTools(<ForYouPage />)}
+          </Route>
+          <Route exact path={checkWish}>
+            {withAppTools(<CheckWishList />)}
+          </Route>
+          <Route exact path={bindBook}>
+            {withAppTools(<BindBook />)}
+          </Route>
+          <Route exact path={getAllQuestions}>
+            {withAppTools(<AllQuestions />)}
           </Route>
           <Route path={wrongPage} component={PageNotFound} />
         </Switch>

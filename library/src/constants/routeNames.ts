@@ -1,6 +1,5 @@
 export const ROUTE_NAMES = {
   AUTHORISET: {
-    resultPage: '/result',
     dashboard: '/',
     statistics: '/statistics',
     achievements: '/achievements',
@@ -8,6 +7,11 @@ export const ROUTE_NAMES = {
     talkToExperts: '/talk-to-experts',
     wishList: '/wish-list',
     recommendedBooks: '/for-you',
+  },
+  ADMIN: {
+    bindBook: '/bindBook',
+    checkWish: '/checkWish',
+    getAllQuestions: '/questions',
   },
   signin: '/signin',
   signup: '/signup',

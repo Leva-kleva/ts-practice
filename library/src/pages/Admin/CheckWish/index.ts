@@ -1,0 +1,1 @@
+export { CheckWishList } from './CheckWishList';

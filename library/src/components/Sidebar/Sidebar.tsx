@@ -6,6 +6,7 @@ import { ChevronLeft } from '@mui/icons-material';
 import MuiDrawer from '@mui/material/Drawer';
 import { mainListItems, secondaryListItems } from './ListItems';
 import { drawerWidth } from '../AppHeader/AppHeader';
+import { adminListItems } from './ListItems/ListItems';
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -42,6 +43,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
   const history = useHistory();
   const toggleDrawer = () => setOpen((open) => !open);
   const handleRoute = (pathname: string) => history.push(pathname);
+  const isAdmin = true;
   return (
     <Drawer variant="permanent" open={open}>
       <Toolbar
@@ -59,6 +61,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
       <Divider />
       <List>{mainListItems(handleRoute)}</List>
       <Divider />
+      <List>{isAdmin && adminListItems(handleRoute)}</List>
       <List>{secondaryListItems(handleRoute)}</List>
     </Drawer>
   );

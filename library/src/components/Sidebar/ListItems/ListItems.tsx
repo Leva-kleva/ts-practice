@@ -4,6 +4,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import Divider from '@mui/material/Divider';
+import LiveHelpIcon from '@mui/icons-material/LiveHelp';
+import LinkIcon from '@mui/icons-material/Link';
 import {
   Equalizer,
   LibraryBooks,
@@ -12,6 +15,7 @@ import {
   Recommend,
   ViewList,
 } from '@mui/icons-material';
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import { ROUTE_NAMES } from '../../../constants/routeNames';
 
 const {
@@ -23,6 +27,8 @@ const {
   wishList,
   recommendedBooks,
 } = ROUTE_NAMES.AUTHORISET;
+
+const { bindBook, checkWish, getAllQuestions } = ROUTE_NAMES.ADMIN;
 
 export const mainListItems = (handleRoute: (pathname: string) => void) => (
   <div>
@@ -76,5 +82,32 @@ export const secondaryListItems = (handleRoute: (pathname: string) => void) => (
       </ListItemIcon>
       <ListItemText primary="Обратная связь" />
     </ListItem>
+  </div>
+);
+
+export const adminListItems = (handleRoute: (pathname: string) => void) => (
+  <div>
+    <ListSubheader inset>Библиотекарю</ListSubheader>
+    <ListItem button onClick={() => handleRoute(bindBook)}>
+      <ListItemIcon>
+        <LinkIcon />
+      </ListItemIcon>
+      <ListItemText primary="Прикрепить книгу" />
+    </ListItem>
+
+    <ListItem button onClick={() => handleRoute(checkWish)}>
+      <ListItemIcon>
+        <PlaylistAddCheckIcon />
+      </ListItemIcon>
+      <ListItemText primary="Необходимые книги" />
+    </ListItem>
+
+    <ListItem button onClick={() => handleRoute(getAllQuestions)}>
+      <ListItemIcon>
+        <LiveHelpIcon />
+      </ListItemIcon>
+      <ListItemText primary="Вопросы" />
+    </ListItem>
+    <Divider />
   </div>
 );
