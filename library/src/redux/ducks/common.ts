@@ -25,7 +25,7 @@ type setNamesAction = {
 
 type setGenresAction = {
   type: CommonTypes.SET_GENRES;
-  genres: Array<string>;
+  genres: Array<{ name: string; id: number }>;
 };
 
 type setAlertTitleAction = {
@@ -39,7 +39,7 @@ type setOpenAlertAction = {
 };
 
 export const setGenres: ActionCreator<setGenresAction> = (
-  genres: Array<string>
+  genres: Array<{ name: string; id: number }>
 ) => ({
   type: CommonTypes.SET_GENRES,
   genres,

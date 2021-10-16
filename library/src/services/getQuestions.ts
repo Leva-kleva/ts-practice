@@ -1,6 +1,6 @@
 import { API_URL } from '../constants/constants';
 
-export const getQuestions = async (body: any) => {
+export const getQuestions = async () => {
   try {
     const rawResponse = await fetch(`${API_URL}/api/v1/account/feedback`, {
       method: 'GET',
