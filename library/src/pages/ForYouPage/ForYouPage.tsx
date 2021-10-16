@@ -373,8 +373,8 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
   const handleBlankSend = async () => {
     if (genre && author) {
       const response = await sendBlank({
-        genre_id: genres.find(({ name }) => name === genre),
-        author_id: names.find(({ name }) => name === author),
+        genre_id: genres.find(({ name }) => name === genre).id,
+        author_id: names.find(({ name }) => name === author).id,
       });
       if (response) {
         dispatch(fetchAccountData());
