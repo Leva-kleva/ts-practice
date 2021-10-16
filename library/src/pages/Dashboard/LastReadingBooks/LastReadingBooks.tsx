@@ -21,7 +21,12 @@ function Orders() {
       if (response) {
         setRows(
           response?.map((item: any) =>
-            createData(item.id, '16 Mar, 2019', item.name, item.author)
+            createData(
+              item.id,
+              item['dttm_in'] || item['dttm_ext'],
+              item['name_book'],
+              item['author_name']
+            )
           )
         );
       }
