@@ -423,7 +423,7 @@ export const SearchBook: React.FC<SearchBookProps> = ({}) => {
       </Paper>
       <Paper sx={{ width: '100%', p: 2 }}>
         <Grid item container xs={12}>
-          {filteredBooks.length && <EnhancedTable values={filteredBooks} />}
+          {!!filteredBooks.length && <EnhancedTable values={filteredBooks} />}
         </Grid>
       </Paper>
     </Box>
