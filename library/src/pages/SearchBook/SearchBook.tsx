@@ -250,7 +250,7 @@ function EnhancedTable({ values }: { values: any }) {
 
                       <TableCell>{row.author}</TableCell>
                       <TableCell>
-                        {row.inStore === 'true' ? (
+                        {row.inStore !== '0' ? (
                           <Chip
                             label="в наличие"
                             color="success"
