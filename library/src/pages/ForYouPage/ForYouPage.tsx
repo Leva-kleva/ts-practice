@@ -229,11 +229,14 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 };
 
 function EnhancedTable() {
+  const dispatch = useDispatch();
   const { accountInfo } = useSelector(
     (state: AppState) => state.authenticationReducer
   );
   const [rows, setRows] = React.useState<Array<any>>([]);
+
   React.useEffect(() => {
+    if (!accountInfo) dispatch(fetchAccountData());
     if (accountInfo?.sent_blank) {
       const asyncHandler = async () => {
         const response = await getRecomendations();
@@ -254,6 +257,7 @@ function EnhancedTable() {
       asyncHandler();
     }
   }, [accountInfo]);
+
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('id');
   const [page, setPage] = React.useState(0);
