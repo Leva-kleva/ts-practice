@@ -1,12 +1,13 @@
 import { API_URL } from '../constants/constants';
 
-export const getAccountInfo = async () => {
+export const bindBookToUser = async (body: any) => {
   try {
-    const rawResponse = await fetch(`${API_URL}/api/v1/login`, {
-      method: 'GET',
+    const rawResponse = await fetch(`${API_URL}/api/updateAccountData`, {
+      method: 'POST',
       headers: {
         'content-type': 'application/json',
       },
+      body: JSON.stringify(body),
     });
     if (rawResponse.ok) {
       const data = await rawResponse.json();

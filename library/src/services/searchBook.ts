@@ -1,18 +1,16 @@
 import { API_URL } from '../constants/constants';
 
-export const sendMessage = async (body: any) => {
+export const searchBook = async (body: any) => {
   try {
-    const rawResponse = await fetch(`${API_URL}/api/v1/account/feedback`, {
+    const rawResponse = await fetch(`${API_URL}/api/v1/book/search`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
       },
       body: JSON.stringify(body),
     });
-    if (rawResponse.ok) {
-      const data = await rawResponse.json();
-      return data;
-    }
+    const data = await rawResponse.json();
+    return data;
   } catch {
     return false;
   }

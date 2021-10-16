@@ -1,14 +1,12 @@
 import { API_URL } from '../constants/constants';
 
-export const search = async (body: any) => {
+export const getAuthors = async () => {
   try {
-    const rawResponse = await fetch(`${API_URL}/api/search`, {
-      method: 'POST',
+    const rawResponse = await fetch(`${API_URL}/api/v1/book/author`, {
+      method: 'GET',
       headers: {
         'content-type': 'application/json',
-        Authorization: `Bearer ${window.token}`,
       },
-      body: JSON.stringify(body),
     });
     const data = await rawResponse.json();
     return data;
