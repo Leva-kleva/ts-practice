@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTokenFromLocalStorage } from './utils/utils';
 import { setAuthenticationState } from './redux/ducks/authentication';
@@ -34,10 +34,12 @@ import { BindBook } from './pages/Admin/BindBook';
 import { AllQuestions } from './pages/Admin/AllQuestions';
 import { getGenres } from './services/getGenres';
 import { getAuthors } from './services/getAuthors';
+import { getAccountInfo } from './services/getAccountInfo';
 
 const App = () => {
   const [isLoaded, setLoadedState] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
   const { isAuthenticated } = useSelector(
     (state: AppState) => state.authenticationReducer
   );
@@ -60,6 +62,18 @@ const App = () => {
   }, [isAuthenticated]);
 
   React.useEffect(() => {
+    if (!isAuthenticated) {
+      const asyncFunc = async () => {
+        const response = await getAccountInfo();
+        if (response) {
+          history.push('/');
+          dispatch(setAuthenticationState(true));
+        }
+      };
+
+      asyncFunc();
+    }
+
     const asyncfunc = async () => {
       if (!names.length) {
         const response = await getAuthors();
@@ -85,8 +99,8 @@ const App = () => {
         }
       }
     };
-    asyncfunc();
-  }, []);
+    if (isAuthenticated) asyncfunc();
+  }, [isAuthenticated]);
 
   useEffect(() => {
     if (isAlertOpen) {
