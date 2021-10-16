@@ -2,7 +2,7 @@ import { API_URL } from '../constants/constants';
 
 export const getRecomendations = async () => {
   try {
-    const rawResponse = await fetch(`${API_URL}/api/v1/recomendations`, {
+    const rawResponse = await fetch(`${API_URL}/api/v1/ml/recommendations`, {
       method: 'GET',
       headers: {
         'content-type': 'application/json',
