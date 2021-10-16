@@ -369,7 +369,9 @@ export const SearchBook: React.FC<SearchBookProps> = ({}) => {
       if (!names.length) {
         const response = await getAuthors();
         if (response) {
-          dispatch(setNames(response));
+          dispatch(
+            setNames(response.map(({ name }: { name: string }) => name))
+          );
         } else {
           dispatch(setAlertSeverity('error'));
           dispatch(setOpenAlert(true));
