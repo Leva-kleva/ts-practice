@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Container, Paper } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -20,7 +20,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { visuallyHidden } from '@mui/utils';
 import { AddBookToWishList } from './AddBookToWishList';
 import { deleteSelectedBooksFromWish } from '../../services/deleteSelectedBooksFromWish';
-import { fetchAccountData } from '../../redux/ducks/authentication';
+import { fetchAccountWishes } from '../../redux/ducks/authentication';
 import {
   setAlertBody,
   setAlertSeverity,
@@ -41,23 +41,6 @@ function createData(id: number, title: string, author: string): Data {
     author,
   };
 }
-
-const rows = [
-  createData(0, 'Cupcake', 'Frozen yoghurt'),
-  createData(1, 'Cupcake1', 'Frozen yoghurt'),
-  createData(2, 'Cupcake2', 'Frozen yoghurt'),
-  createData(3, 'Cupcake3', 'Frozen yoghurt'),
-  createData(4, 'Cupcake4', 'Frozen yoghurt'),
-  createData(5, 'Cupcake5', 'Frozen yoghurt'),
-  createData(6, 'Cupcake6', 'Frozen yoghurt'),
-  createData(7, 'Cupcake7', 'Frozen yoghurt'),
-  createData(8, 'Cupcake8', 'Frozen yoghurt'),
-  createData(9, 'Cupcake9', 'Frozen yoghurt'),
-  createData(10, 'Cupcake10', 'Frozen yoghurt'),
-  createData(11, 'Cupcake11', 'Frozen yoghurt'),
-  createData(12, 'Cupcake12', 'Frozen yoghurt'),
-  createData(13, 'Cupcake13', 'Frozen yoghurt'),
-];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -206,8 +189,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       indexes: deletingIndexes,
     });
     if (response) {
-      //TODO: getUserWishes()
-      // dispatch(fetchAccountData());
+      dispatch(fetchAccountWishes());
     } else {
       dispatch(setAlertSeverity('error'));
       dispatch(setOpenAlert(true));
@@ -266,6 +248,13 @@ function EnhancedTable() {
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const { accountWishes: rowRows } = useSelector(
+    (state: AppState) => state.authenticationReducer
+  );
+
+  const rows = rowRows.map((item: any) =>
+    createData(item.id, item.name, item.author)
+  );
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
