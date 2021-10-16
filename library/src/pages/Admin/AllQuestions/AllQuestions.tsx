@@ -37,10 +37,10 @@ function BasicTable() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="right">Дата</TableCell>
-            <TableCell align="right">Тема</TableCell>
-            <TableCell align="right">Вопрос</TableCell>
-            <TableCell align="right">email</TableCell>
+            <TableCell align="left">Дата</TableCell>
+            <TableCell align="left">Тема</TableCell>
+            <TableCell align="left">Вопрос</TableCell>
+            <TableCell align="left">email</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -49,10 +49,10 @@ function BasicTable() {
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell align="right">{row.date.slice(0, 16)}</TableCell>
-              <TableCell align="right">{row.title}</TableCell>
-              <TableCell align="right">{row.message}</TableCell>
-              <TableCell align="right">{row.email}</TableCell>
+              <TableCell align="left">{row.date.slice(0, 16)}</TableCell>
+              <TableCell align="left">{row.title}</TableCell>
+              <TableCell align="left">{row.message}</TableCell>
+              <TableCell align="left">{row.email}</TableCell>
             </TableRow>
           ))}
         </TableBody>
