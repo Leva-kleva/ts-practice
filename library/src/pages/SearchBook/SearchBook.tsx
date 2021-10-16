@@ -1,18 +1,18 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Box, Paper, Grid, Button, TextField } from '@mui/material';
+import { Box, Paper, Grid, Button, TextField, Chip } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { search } from '../../services/search';
+import { visuallyHidden } from '@mui/utils';
 import {
   setAlertBody,
   setAlertSeverity,
   setAlertTitle,
   setOpenAlert,
 } from '../../redux/ducks/common';
-import { alpha } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -23,43 +23,43 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { visuallyHidden } from '@mui/utils';
-import { deleteSelectedBooksFromWish } from '../../services/deleteSelectedBooksFromWish';
-import { fetchAccountData } from '../../redux/ducks/authentication';
 
 interface Data {
   id: number;
   title: string;
   author: string;
+  inStore: string;
 }
 
-function createData(id: number, title: string, author: string): Data {
+function createData(
+  id: number,
+  title: string,
+  author: string,
+  inStore: string
+): Data {
   return {
     id,
     title,
     author,
+    inStore,
   };
 }
 
 const rows = [
-  createData(0, 'Cupcake', 'Frozen yoghurt'),
-  createData(1, 'Cupcake1', 'Frozen yoghurt'),
-  createData(2, 'Cupcake2', 'Frozen yoghurt'),
-  createData(3, 'Cupcake3', 'Frozen yoghurt'),
-  createData(4, 'Cupcake4', 'Frozen yoghurt'),
-  createData(5, 'Cupcake5', 'Frozen yoghurt'),
-  createData(6, 'Cupcake6', 'Frozen yoghurt'),
-  createData(7, 'Cupcake7', 'Frozen yoghurt'),
-  createData(8, 'Cupcake8', 'Frozen yoghurt'),
-  createData(9, 'Cupcake9', 'Frozen yoghurt'),
-  createData(10, 'Cupcake10', 'Frozen yoghurt'),
-  createData(11, 'Cupcake11', 'Frozen yoghurt'),
-  createData(12, 'Cupcake12', 'Frozen yoghurt'),
-  createData(13, 'Cupcake13', 'Frozen yoghurt'),
+  createData(0, 'Cupcake', 'Frozen yoghurt', 'true'),
+  createData(1, 'Cupcake1', 'Frozen yoghurt', 'true'),
+  createData(2, 'Cupcake2', 'Frozen yoghurt', 'true'),
+  createData(3, 'Cupcake3', 'Frozen yoghurt', 'true'),
+  createData(4, 'Cupcake4', 'Frozen yoghurt', 'false'),
+  createData(5, 'Cupcake5', 'Frozen yoghurt', 'false'),
+  createData(6, 'Cupcake6', 'Frozen yoghurt', 'false'),
+  createData(7, 'Cupcake7', 'Frozen yoghurt', 'false'),
+  createData(8, 'Cupcake8', 'Frozen yoghurt', 'false'),
+  createData(9, 'Cupcake9', 'Frozen yoghurt', 'false'),
+  createData(10, 'Cupcake10', 'Frozen yoghurt', 'true'),
+  createData(11, 'Cupcake11', 'Frozen yoghurt', 'true'),
+  createData(12, 'Cupcake12', 'Frozen yoghurt', 'true'),
+  createData(13, 'Cupcake13', 'Frozen yoghurt', 'true'),
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -112,7 +112,7 @@ const headCells: readonly HeadCell[] = [
   {
     id: 'id',
     numeric: true,
-    disablePadding: true,
+    disablePadding: false,
     label: '№',
   },
   {
@@ -127,29 +127,26 @@ const headCells: readonly HeadCell[] = [
     disablePadding: false,
     label: 'Автор',
   },
+  {
+    id: 'inStore',
+    numeric: false,
+    disablePadding: false,
+    label: 'В наличие',
+  },
 ];
 
 interface EnhancedTableProps {
-  numSelected: number;
   onRequestSort: (
     event: React.MouseEvent<unknown>,
     property: keyof Data
   ) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
   rowCount: number;
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const {
-    onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler =
     (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
@@ -158,17 +155,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts',
-            }}
-          />
-        </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -195,69 +181,24 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-interface EnhancedTableToolbarProps {
-  numSelected: number;
-  selectedItems: Data[];
-}
+interface EnhancedTableToolbarProps {}
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
-  const dispatch = useDispatch();
-  const { numSelected, selectedItems } = props;
-  const handleDelete = async () => {
-    const deletingIndexes = selectedItems.map((item) => +item);
-    const response = await deleteSelectedBooksFromWish({
-      indexes: deletingIndexes,
-    });
-    if (response) {
-      dispatch(fetchAccountData());
-    } else {
-      dispatch(setAlertSeverity('error'));
-      dispatch(setOpenAlert(true));
-      dispatch(setAlertBody('Не удалось удалить, попробуйте позже'));
-      dispatch(setAlertTitle('Что-то пошло не так'));
-    }
-  };
-
   return (
     <Toolbar
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
-        }),
       }}
     >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} выбрано
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Найденные книги
-        </Typography>
-      )}
-      {numSelected > 0 && (
-        <Tooltip title="Delete">
-          <IconButton onClick={handleDelete}>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+      <Typography
+        sx={{ flex: '1 1 100%' }}
+        variant="h6"
+        id="tableTitle"
+        component="div"
+      >
+        Найденные книги
+      </Typography>
     </Toolbar>
   );
 };
@@ -265,7 +206,6 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 function EnhancedTable() {
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('id');
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -276,35 +216,6 @@ function EnhancedTable() {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelecteds = rows.map((n) => String(n.id));
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: readonly string[] = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -318,8 +229,6 @@ function EnhancedTable() {
     setPage(0);
   };
 
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
-
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -327,10 +236,7 @@ function EnhancedTable() {
   return (
     <Box sx={{ width: '100%', mt: 2 }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar
-          numSelected={selected.length}
-          selectedItems={selected as any}
-        />
+        <EnhancedTableToolbar />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -338,10 +244,8 @@ function EnhancedTable() {
             size="medium"
           >
             <EnhancedTableHead
-              numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
@@ -349,38 +253,31 @@ function EnhancedTable() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(String(row.id));
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, String(row.id))}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
+                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                      <TableCell component="th" id={labelId} scope="row">
                         {row.id}
                       </TableCell>
                       <TableCell>{row.title}</TableCell>
+
                       <TableCell>{row.author}</TableCell>
+                      <TableCell>
+                        {row.inStore === 'true' ? (
+                          <Chip
+                            label="в наличие"
+                            color="success"
+                            variant="outlined"
+                          />
+                        ) : (
+                          <Chip
+                            label="Нет в наличии"
+                            color="error"
+                            variant="outlined"
+                          />
+                        )}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
