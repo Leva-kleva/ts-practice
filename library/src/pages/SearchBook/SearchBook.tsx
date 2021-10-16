@@ -47,23 +47,6 @@ function createData(
   };
 }
 
-const rows = [
-  createData(0, 'Cupcake', 'Frozen yoghurt', 'true'),
-  createData(1, 'Cupcake1', 'Frozen yoghurt', 'true'),
-  createData(2, 'Cupcake2', 'Frozen yoghurt', 'true'),
-  createData(3, 'Cupcake3', 'Frozen yoghurt', 'true'),
-  createData(4, 'Cupcake4', 'Frozen yoghurt', 'false'),
-  createData(5, 'Cupcake5', 'Frozen yoghurt', 'false'),
-  createData(6, 'Cupcake6', 'Frozen yoghurt', 'false'),
-  createData(7, 'Cupcake7', 'Frozen yoghurt', 'false'),
-  createData(8, 'Cupcake8', 'Frozen yoghurt', 'false'),
-  createData(9, 'Cupcake9', 'Frozen yoghurt', 'false'),
-  createData(10, 'Cupcake10', 'Frozen yoghurt', 'true'),
-  createData(11, 'Cupcake11', 'Frozen yoghurt', 'true'),
-  createData(12, 'Cupcake12', 'Frozen yoghurt', 'true'),
-  createData(13, 'Cupcake13', 'Frozen yoghurt', 'true'),
-];
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -205,7 +188,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-function EnhancedTable() {
+function EnhancedTable({ values }: { values: any }) {
+  const rows = values;
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('id');
   const [page, setPage] = React.useState(0);
@@ -344,6 +328,7 @@ const BasicSelect: React.FC<BasicSelectProps> = ({ author, setAuthor }) => {
 type SearchBookProps = {};
 
 export const SearchBook: React.FC<SearchBookProps> = ({}) => {
+  const [filteredBooks, setFilteredBooks] = React.useState([]);
   const dispatch = useDispatch();
   const { names } = useSelector((state: AppState) => state.commonReducer);
 
@@ -378,10 +363,19 @@ export const SearchBook: React.FC<SearchBookProps> = ({}) => {
       )!.id;
       const response = await searchBook({
         name: title,
-        author: authorId,
+        authorId,
       });
       if (response) {
-        const filteredBooks = response.books || rows;
+        setFilteredBooks(
+          response.map((item: any) =>
+            createData(
+              item.id,
+              item.name,
+              names.find((elem) => elem.id === item['author_id'])!.name,
+              item['cnt_curr']
+            )
+          )
+        );
         dispatch(setAlertSeverity('success'));
         dispatch(setOpenAlert(true));
         dispatch(setAlertBody('Нам удалось найти то, что вы искали'));
@@ -429,7 +423,7 @@ export const SearchBook: React.FC<SearchBookProps> = ({}) => {
       </Paper>
       <Paper sx={{ width: '100%', p: 2 }}>
         <Grid item container xs={12}>
-          {true && <EnhancedTable />}
+          {filteredBooks && <EnhancedTable values={filteredBooks} />}
         </Grid>
       </Paper>
     </Box>
