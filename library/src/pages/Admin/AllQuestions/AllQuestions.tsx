@@ -25,7 +25,7 @@ function BasicTable() {
       if (response) {
         setRows(
           response.map((item: any) =>
-            createData(item['dttm'], item.header, item.messagem, item.email)
+            createData(item['dttm'], item.header, item.message, item.email)
           )
         );
       }
@@ -37,7 +37,6 @@ function BasicTable() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Вопросы</TableCell>
             <TableCell align="right">Дата</TableCell>
             <TableCell align="right">Тема</TableCell>
             <TableCell align="right">Вопрос</TableCell>
@@ -50,9 +49,6 @@ function BasicTable() {
               key={row.name}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
               <TableCell align="right">{row.date.slice(0, 16)}</TableCell>
               <TableCell align="right">{row.title}</TableCell>
               <TableCell align="right">{row.message}</TableCell>
