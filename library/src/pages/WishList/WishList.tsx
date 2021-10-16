@@ -243,6 +243,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 };
 
 function EnhancedTable() {
+  const dispatch = useDispatch();
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('id');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -251,6 +252,11 @@ function EnhancedTable() {
   const { accountWishes: rowRows } = useSelector(
     (state: AppState) => state.authenticationReducer
   );
+  React.useEffect(() => {
+    if (!rowRows) {
+      dispatch(fetchAccountWishes());
+    }
+  }, []);
 
   const rows =
     rowRows?.map((item: any) => createData(item.id, item.name, item.author)) ||
