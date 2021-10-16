@@ -155,7 +155,7 @@ const Signin = () => {
               disabled={!!errorMessage || isErrorEmail || isErrorPassword}
               type="button"
               fullWidth
-              variant="contained"
+              variant="outlined"
               color="primary"
               className={classes.submit}
               onClick={onSigninClick}

@@ -75,7 +75,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({ open, setOpen }) => {
               style={{ width: '24px', height: '24px' }}
             />
             <div className="heading" style={{ paddingLeft: '10px' }}>
-              Smart Library
+              Мобильная библиотека
             </div>
           </Box>
         </Typography>

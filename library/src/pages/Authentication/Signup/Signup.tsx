@@ -227,7 +227,7 @@ const SignUp = () => {
               }
               type="button"
               fullWidth
-              variant="contained"
+              variant="outlined"
               color="primary"
               className={classes.submit}
               onClick={onSignupClick}
