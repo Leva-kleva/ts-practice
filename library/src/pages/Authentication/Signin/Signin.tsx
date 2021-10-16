@@ -12,12 +12,7 @@ import Typography from '@mui/material/Typography';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Container from '@mui/material/Container';
 import { signin } from '../../../services/authentication';
-import {
-  checkUserEmail,
-  checkUserPassword,
-  getTokenFromLocalStorage,
-  saveTokenToLocalStorage,
-} from '../../../utils/utils';
+import { checkUserEmail, checkUserPassword } from '../../../utils/utils';
 import { setAuthenticationState } from '../../../redux/ducks/authentication';
 import './Signin.scss';
 import { onChangeHandler } from '../authentication.utils';
@@ -72,10 +67,8 @@ const Signin = () => {
           email: email,
           password: password,
         });
-        if (response.token) {
+        if (response?.info) {
           history.push('/');
-          saveTokenToLocalStorage(response.token);
-          getTokenFromLocalStorage();
           dispatch(setAuthenticationState(true));
         } else {
           setErrorMessage('Пользователь не существует');
