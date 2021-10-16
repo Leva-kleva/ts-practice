@@ -373,8 +373,8 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
   const handleBlankSend = async () => {
     if (genre && author) {
       const response = await sendBlank({
-        genre,
-        author,
+        genre_id: genres.find(({ name }) => name === genre),
+        author_id: names.find(({ name }) => name === author),
       });
       if (response) {
         dispatch(fetchAccountData());
@@ -402,14 +402,14 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
             value={genre}
             setValue={setGener}
             label="Любимая тема"
-            values={genres}
+            values={genres.map(({ name }: { name: string }) => name)}
           />
           <Grid container item xs={12}></Grid>
           <BasicSelect
             value={author}
             setValue={setAuthor}
             label="Любимый автор"
-            values={names}
+            values={names.map(({ name }: { name: string }) => name)}
           />
           <Grid xs={12} item sx={{ position: 'relative' }}>
             <Button

@@ -67,9 +67,7 @@ const App = () => {
       if (!names.length) {
         const response = await getAuthors();
         if (response) {
-          dispatch(
-            setNames(response.map(({ name }: { name: string }) => name))
-          );
+          dispatch(setNames(response));
         } else {
           dispatch(setAlertSeverity('error'));
           dispatch(setOpenAlert(true));
@@ -81,9 +79,7 @@ const App = () => {
       if (!genres.length) {
         const response = await getGenres();
         if (response) {
-          dispatch(
-            setGenres(response.map(({ name }: { name: string }) => name))
-          );
+          dispatch(setGenres(response));
         } else {
           dispatch(setAlertSeverity('error'));
           dispatch(setOpenAlert(true));

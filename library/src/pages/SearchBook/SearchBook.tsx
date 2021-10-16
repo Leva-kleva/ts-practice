@@ -369,9 +369,7 @@ export const SearchBook: React.FC<SearchBookProps> = ({}) => {
       if (!names.length) {
         const response = await getAuthors();
         if (response) {
-          dispatch(
-            setNames(response.map(({ name }: { name: string }) => name))
-          );
+          dispatch(setNames(response));
         } else {
           dispatch(setAlertSeverity('error'));
           dispatch(setOpenAlert(true));
@@ -384,8 +382,11 @@ export const SearchBook: React.FC<SearchBookProps> = ({}) => {
   }, []);
 
   const handleSearch = async () => {
-    if (author && title.trim() && names.length) {
-      const authorId = names.find(({ name }) => name === author)!.id;
+    const mapedNames = names.map(({ name }: { name: string }) => name);
+    if (author && title.trim() && mapedNames.length) {
+      const authorId = names.find(
+        ({ name }: { name: string }) => name === author
+      )!.id;
       const response = await searchBook({
         name: title,
         author: authorId,

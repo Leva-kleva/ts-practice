@@ -21,7 +21,7 @@ type CommonReducerState = {
   alertSeverity: AlertSeverity;
   alertBody: string;
   alertTitle: string;
-  genres: Array<string>;
+  genres: Array<{ name: string; id: number }>;
   names: Array<{ name: string; id: number }>;
 };
 
