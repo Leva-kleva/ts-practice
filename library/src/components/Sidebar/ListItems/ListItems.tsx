@@ -88,12 +88,6 @@ export const secondaryListItems = (handleRoute: (pathname: string) => void) => (
 export const adminListItems = (handleRoute: (pathname: string) => void) => (
   <div>
     <ListSubheader inset>Библиотекарю</ListSubheader>
-    <ListItem button onClick={() => handleRoute(bindBook)}>
-      <ListItemIcon>
-        <LinkIcon />
-      </ListItemIcon>
-      <ListItemText primary="Прикрепить книгу" />
-    </ListItem>
 
     <ListItem button onClick={() => handleRoute(checkWish)}>
       <ListItemIcon>
