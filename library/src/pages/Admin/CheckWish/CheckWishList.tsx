@@ -272,7 +272,7 @@ function EnhancedTable() {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => String(n.id));
+      const newSelecteds = rows.map((n: any) => String(n.id));
       setSelected(newSelecteds);
       return;
     }
