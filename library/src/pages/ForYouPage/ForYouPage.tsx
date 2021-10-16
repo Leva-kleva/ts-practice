@@ -365,6 +365,9 @@ type ForYouPageProps = {};
 
 export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
   const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(fetchAccountData());
+  }, []);
   const { accountInfo } = useSelector(
     (state: AppState) => state.authenticationReducer
   );
