@@ -40,7 +40,7 @@ export const Dashboard: React.FC<DashboardProps> = ({}) => {
               <CardMedia
                 component="img"
                 height="248"
-                image="https://source.unsplash.com/random"
+                image="https://source.unsplash.com/zL73at8Th1M"
                 alt="green iguana"
               />
             </Paper>
