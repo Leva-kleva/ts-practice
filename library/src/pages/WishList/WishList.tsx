@@ -252,9 +252,9 @@ function EnhancedTable() {
     (state: AppState) => state.authenticationReducer
   );
 
-  const rows = rowRows.map((item: any) =>
-    createData(item.id, item.name, item.author)
-  );
+  const rows =
+    rowRows?.map((item: any) => createData(item.id, item.name, item.author)) ||
+    [];
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
