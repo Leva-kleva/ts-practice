@@ -39,13 +39,17 @@ function Orders() {
         </TableRow>
       </TableHead>
       <TableBody>
-        {rows.map((row) => (
-          <TableRow key={row.id}>
-            <TableCell>{row.author}</TableCell>
-            <TableCell>{row.name}</TableCell>
-            <TableCell align="right">{row.date}</TableCell>
-          </TableRow>
-        ))}
+        {rows.length ? (
+          rows.map((row) => (
+            <TableRow key={row.id}>
+              <TableCell>{row.author}</TableCell>
+              <TableCell>{row.name}</TableCell>
+              <TableCell align="right">{row.date}</TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableCell>У вас нет прочитанных книг </TableCell>
+        )}
       </TableBody>
     </Table>
   );
