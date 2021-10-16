@@ -1,4 +1,6 @@
 import { API_URL } from '../constants/constants';
+//@ts-ignore
+import Cookies from 'js-cookie';
 
 export const signin = async (body: any) => {
   try {
@@ -10,6 +12,9 @@ export const signin = async (body: any) => {
       body: JSON.stringify(body),
     });
     const data = await rawResponse.json();
+    console.log(data.headers);
+
+    Cookies.set('access_token', data.headers['x-access-token']);
     return data;
   } catch {
     return false;

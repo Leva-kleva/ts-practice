@@ -21,10 +21,19 @@ import { SearchBook } from './pages/SearchBook';
 import { TalkToExperts } from './pages/TalkToExperts';
 import { ForYouPage } from './pages/ForYouPage';
 import { PureAlert } from './components/PureAlert';
-import { setOpenAlert } from './redux/ducks/common';
+import {
+  setGenres,
+  setNames,
+  setOpenAlert,
+  setAlertTitle,
+  setAlertBody,
+  setAlertSeverity,
+} from './redux/ducks/common';
 import { CheckWishList } from './pages/Admin/CheckWish';
 import { BindBook } from './pages/Admin/BindBook';
 import { AllQuestions } from './pages/Admin/AllQuestions';
+import { getGenres } from './services/getGenres';
+import { getAuthors } from './services/getAuthors';
 
 const App = () => {
   const [isLoaded, setLoadedState] = useState(false);
@@ -32,7 +41,7 @@ const App = () => {
   const { isAuthenticated } = useSelector(
     (state: AppState) => state.authenticationReducer
   );
-  const { isAlertOpen, alertBody, alertTitle } = useSelector(
+  const { isAlertOpen, alertBody, alertTitle, names, genres } = useSelector(
     (state: AppState) => state.commonReducer
   );
   const [open, setOpen] = useState<boolean>(true);
@@ -49,6 +58,35 @@ const App = () => {
     setLoadedState(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);
+
+  React.useEffect(() => {
+    const asyncfunc = async () => {
+      if (!names.length) {
+        const response = await getAuthors();
+        if (response) {
+          dispatch(setNames(response));
+        } else {
+          dispatch(setAlertSeverity('error'));
+          dispatch(setOpenAlert(true));
+          dispatch(setAlertBody('Проблемы с сервером, попробуйте позже'));
+          dispatch(setAlertTitle('Ой!'));
+        }
+      }
+
+      if (!genres.length) {
+        const response = await getGenres();
+        if (response) {
+          dispatch(setGenres(response));
+        } else {
+          dispatch(setAlertSeverity('error'));
+          dispatch(setOpenAlert(true));
+          dispatch(setAlertBody('Проблемы с сервером, попробуйте позже'));
+          dispatch(setAlertTitle('Ой!'));
+        }
+      }
+    };
+    asyncfunc();
+  }, []);
 
   useEffect(() => {
     if (isAlertOpen) {
@@ -80,7 +118,7 @@ const App = () => {
       </AppToolsWrapper>
     );
 
-    if (!isAuthenticated) {
+    if (isAuthenticated) {
       return (
         <Switch>
           <Route exact path={dashboard}>

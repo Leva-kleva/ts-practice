@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, Paper, Grid, Button, TextField, Chip } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,6 +11,7 @@ import {
   setAlertBody,
   setAlertSeverity,
   setAlertTitle,
+  setNames,
   setOpenAlert,
 } from '../../redux/ducks/common';
 import Table from '@mui/material/Table';
@@ -355,31 +356,29 @@ type SearchBookProps = {};
 
 export const SearchBook: React.FC<SearchBookProps> = ({}) => {
   const dispatch = useDispatch();
+  const { names } = useSelector((state: AppState) => state.commonReducer);
 
   const [author, setAuthor] = React.useState('');
   const [title, setTitle] = React.useState('');
-  const [names, setNames] = React.useState<Array<{ name: string; id: number }>>(
-    []
-  );
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => setTitle(event.target.value);
 
   React.useEffect(() => {
-    if (!names) {
-      const asyncfunc = async () => {
+    const asyncfunc = async () => {
+      if (!names.length) {
         const response = await getAuthors();
         if (response) {
-          setNames(response);
+          dispatch(setNames(response));
         } else {
           dispatch(setAlertSeverity('error'));
           dispatch(setOpenAlert(true));
           dispatch(setAlertBody('Проблемы с сервером, попробуйте позже'));
           dispatch(setAlertTitle('Ой!'));
         }
-      };
-      asyncfunc();
-    }
+      }
+    };
+    asyncfunc();
   }, []);
 
   const handleSearch = async () => {

@@ -5,6 +5,8 @@ enum CommonTypes {
   SET_ALERT_SEVERITY = 'common/SET_ALERT_SEVERITY',
   SET_ALERT_BODY = 'common/SET_ALERT_BODY',
   SET_ALERT_TITLE = 'common/SET_ALERT_TITLE',
+  SET_GENRES = 'common/SET_GENRES',
+  SET_NAMES = 'common/SET_NAMES',
 }
 
 const initialState: CommonReducerState = {
@@ -12,6 +14,18 @@ const initialState: CommonReducerState = {
   alertSeverity: 'info',
   alertBody: '',
   alertTitle: '',
+  names: [],
+  genres: [],
+};
+
+type setNamesAction = {
+  type: CommonTypes.SET_NAMES;
+  names: Array<{ name: string; id: number }>;
+};
+
+type setGenresAction = {
+  type: CommonTypes.SET_GENRES;
+  genres: Array<string>;
 };
 
 type setAlertTitleAction = {
@@ -23,6 +37,20 @@ type setOpenAlertAction = {
   type: CommonTypes.SET_OPEN_ALERT;
   open: boolean;
 };
+
+export const setGenres: ActionCreator<setGenresAction> = (
+  genres: Array<string>
+) => ({
+  type: CommonTypes.SET_GENRES,
+  genres,
+});
+
+export const setNames: ActionCreator<setNamesAction> = (
+  names: Array<{ name: string; id: number }>
+) => ({
+  type: CommonTypes.SET_NAMES,
+  names,
+});
 
 export const setAlertTitle: ActionCreator<setAlertTitleAction> = (
   title: string
@@ -66,13 +94,25 @@ type CommonActions =
   | setAlertBodyAction
   | setAlertSeverityAction
   | setOpenAlertAction
-  | setAlertTitleAction;
+  | setAlertTitleAction
+  | setGenresAction
+  | setNamesAction;
 
 export const commonReducer: Reducer<CommonReducerState, CommonActions> = (
   state = initialState,
   action
 ) => {
   switch (action.type) {
+    case CommonTypes.SET_GENRES:
+      return {
+        ...state,
+        genres: action.genres,
+      };
+    case CommonTypes.SET_NAMES:
+      return {
+        ...state,
+        names: action.names,
+      };
     case CommonTypes.SET_ALERT_TITLE:
       return {
         ...state,
