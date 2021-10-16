@@ -49,18 +49,6 @@ const App = () => {
   const [open, setOpen] = useState<boolean>(true);
   const [timerId, setTimerId] = useState<NodeJS.Timeout>(null as any);
 
-  useEffect(() => {
-    const async = async () => {
-      getTokenFromLocalStorage();
-      if (window.token && !isAuthenticated) {
-        dispatch(setAuthenticationState(true));
-      }
-    };
-    async();
-    setLoadedState(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
-
   React.useEffect(() => {
     if (!isAuthenticated) {
       const asyncFunc = async () => {
@@ -69,6 +57,7 @@ const App = () => {
           history.push('/');
           dispatch(setAuthenticationState(true));
         }
+        setLoadedState(true);
       };
 
       asyncFunc();
