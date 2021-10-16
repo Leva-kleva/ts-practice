@@ -398,7 +398,7 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
     }
   };
   const renderForPage = () => {
-    if (accountInfo?.sent_blank === 'false') {
+    if (!accountInfo?.sent_blank) {
       return (
         <>
           <Grid item xs={12} container>
