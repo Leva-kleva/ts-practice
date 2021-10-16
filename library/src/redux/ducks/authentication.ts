@@ -54,7 +54,7 @@ export const fetchAccountData = () => async (dispatch: AppDispatch) => {
 export const fetchAccountWishes = () => async (dispatch: AppDispatch) => {
   const accountInfo = await getUserWishes();
   if (accountInfo) {
-    dispatch(setAccountData(accountInfo));
+    dispatch(setAccountWishes(accountInfo));
   }
 };
 
