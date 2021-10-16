@@ -53,7 +53,7 @@ function BasicTable() {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="right">{row.date}</TableCell>
+              <TableCell align="right">{row.date.slice(0, 16)}</TableCell>
               <TableCell align="right">{row.title}</TableCell>
               <TableCell align="right">{row.message}</TableCell>
               <TableCell align="right">{row.email}</TableCell>
