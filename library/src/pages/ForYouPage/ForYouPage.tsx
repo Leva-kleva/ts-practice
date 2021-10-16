@@ -392,6 +392,7 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
   };
 
   const renderForPage = React.useCallback(() => {
+    console.log('accountInfo: ', accountInfo);
     if (!accountInfo?.sent_blank) {
       return (
         <>
