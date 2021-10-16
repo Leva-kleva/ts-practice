@@ -391,7 +391,7 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
     }
   };
 
-  const renderForPage = () => {
+  const renderForPage = React.useCallback(() => {
     if (!accountInfo?.sent_blank) {
       return (
         <>
@@ -431,7 +431,7 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
         </Grid>
       </Paper>
     );
-  };
+  }, [accountInfo]);
 
   return <Paper sx={{ p: 10, mt: 8, width: '100%' }}>{renderForPage()}</Paper>;
 };
