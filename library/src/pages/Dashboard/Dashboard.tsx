@@ -5,7 +5,7 @@ import { Paper, Toolbar, Container } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 
 import { AccountInfo } from './AccountInfo';
-import { WishListResult } from './WishListResult';
+import { LastReadingBooks } from './LastReadingBooks';
 
 type DashboardProps = {};
 
@@ -24,7 +24,7 @@ export const Dashboard: React.FC<DashboardProps> = ({}) => {
                 height: 280,
               }}
             >
-              <WishListResult />
+              <LastReadingBooks />
             </Paper>
           </Grid>
 
