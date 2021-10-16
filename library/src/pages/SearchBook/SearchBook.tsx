@@ -319,18 +319,7 @@ const BasicSelect: React.FC<BasicSelectProps> = ({ author, setAuthor }) => {
     setAuthor(event.target.value as string);
   };
 
-  const names = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-  ];
+  const { names } = useSelector((state: AppState) => state.commonReducer);
 
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -343,7 +332,7 @@ const BasicSelect: React.FC<BasicSelectProps> = ({ author, setAuthor }) => {
           label="Выберите автора"
           onChange={handleChange}
         >
-          {names.map((name) => (
+          {names.map(({ name }: { name: string }) => (
             <MenuItem value={name}>{name}</MenuItem>
           ))}
         </Select>
