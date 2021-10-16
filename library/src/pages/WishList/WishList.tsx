@@ -252,6 +252,7 @@ function EnhancedTable() {
   const { accountWishes: rowRows } = useSelector(
     (state: AppState) => state.authenticationReducer
   );
+  console.log('rowRows: ', rowRows);
   React.useEffect(() => {
     if (!rowRows) {
       dispatch(fetchAccountWishes());
