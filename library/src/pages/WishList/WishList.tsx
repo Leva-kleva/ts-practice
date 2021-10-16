@@ -206,7 +206,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       indexes: deletingIndexes,
     });
     if (response) {
-      dispatch(fetchAccountData());
+      //TODO: getUserWishes()
+      // dispatch(fetchAccountData());
     } else {
       dispatch(setAlertSeverity('error'));
       dispatch(setOpenAlert(true));

@@ -78,10 +78,8 @@ const SignUp = () => {
         const response = await signup({
           email: email,
           password: password,
-          profile: {
-            first_name: firstname,
-            last_name: lastname,
-          },
+          fname: firstname,
+          sname: lastname,
         });
         if (response.token) {
           saveTokenToLocalStorage(response.token);

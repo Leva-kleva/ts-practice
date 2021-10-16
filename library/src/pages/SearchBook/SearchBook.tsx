@@ -5,7 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { search } from '../../services/search';
+import { searchBook } from '../../services/searchBook';
 import { visuallyHidden } from '@mui/utils';
 import {
   setAlertBody,
@@ -23,6 +23,7 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { getAuthors } from '../../services/getAuthors';
 
 interface Data {
   id: number;
@@ -354,11 +355,39 @@ type SearchBookProps = {};
 
 export const SearchBook: React.FC<SearchBookProps> = ({}) => {
   const dispatch = useDispatch();
+
+  const [author, setAuthor] = React.useState('');
+  const [title, setTitle] = React.useState('');
+  const [names, setNames] = React.useState<Array<{ name: string; id: number }>>(
+    []
+  );
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => setTitle(event.target.value);
+
+  React.useEffect(() => {
+    if (!names) {
+      const asyncfunc = async () => {
+        const response = await getAuthors();
+        if (response) {
+          setNames(response);
+        } else {
+          dispatch(setAlertSeverity('error'));
+          dispatch(setOpenAlert(true));
+          dispatch(setAlertBody('Проблемы с сервером, попробуйте позже'));
+          dispatch(setAlertTitle('Ой!'));
+        }
+      };
+      asyncfunc();
+    }
+  }, []);
+
   const handleSearch = async () => {
-    if (author && title.trim()) {
-      const response = await search({
-        title,
-        author,
+    if (author && title.trim() && names.length) {
+      const authorId = names.find(({ name }) => name === author)!.id;
+      const response = await searchBook({
+        name: title,
+        author: authorId,
       });
       if (response) {
         const filteredBooks = response.books || rows;
@@ -374,12 +403,6 @@ export const SearchBook: React.FC<SearchBookProps> = ({}) => {
       }
     }
   };
-
-  const [author, setAuthor] = React.useState('');
-  const [title, setTitle] = React.useState('');
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => setTitle(event.target.value);
   return (
     <Box sx={{ width: '100%', mt: 8, maxHeight: '100vh', overflow: 'auto' }}>
       <Paper sx={{ width: '100%', p: 2, pb: 8, position: 'relative' }}>

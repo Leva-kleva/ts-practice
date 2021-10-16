@@ -54,8 +54,9 @@ export const TalkToExperts: React.FC<TalkToExpertsProps> = ({}) => {
       const response = await sendMessage({
         name,
         phone,
-        title,
         email,
+        header: title,
+        message,
       });
 
       if (response) {

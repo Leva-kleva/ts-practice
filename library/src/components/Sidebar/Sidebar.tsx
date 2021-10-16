@@ -7,6 +7,7 @@ import MuiDrawer from '@mui/material/Drawer';
 import { mainListItems, secondaryListItems } from './ListItems';
 import { drawerWidth } from '../AppHeader/AppHeader';
 import { adminListItems } from './ListItems/ListItems';
+import { useSelector } from 'react-redux';
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -41,9 +42,12 @@ type SidebarProps = {
 
 export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
   const history = useHistory();
+  const { accountInfo } = useSelector(
+    (state: AppState) => state.authenticationReducer
+  );
   const toggleDrawer = () => setOpen((open) => !open);
   const handleRoute = (pathname: string) => history.push(pathname);
-  const isAdmin = true;
+  const isAdmin = accountInfo.role || false;
   return (
     <Drawer variant="permanent" open={open}>
       <Toolbar
