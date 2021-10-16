@@ -19,9 +19,8 @@ function Orders() {
     const asyncFunc = async () => {
       const response = await getLastReadingBooks();
       if (response) {
-        console.log('response: ', response);
         setRows(
-          response.data.map((item: any) =>
+          response?.map((item: any) =>
             createData(item.id, '16 Mar, 2019', item.name, item.author)
           )
         );
