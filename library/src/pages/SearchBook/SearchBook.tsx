@@ -372,7 +372,7 @@ export const SearchBook: React.FC<SearchBookProps> = ({}) => {
               item.id,
               item.name,
               names.find((elem) => elem.id === item['author_id'])!.name,
-              item['cnt_curr']
+              String(item['cnt_curr'])
             )
           )
         );
@@ -423,7 +423,9 @@ export const SearchBook: React.FC<SearchBookProps> = ({}) => {
       </Paper>
       <Paper sx={{ width: '100%', p: 2 }}>
         <Grid item container xs={12}>
-          {!!filteredBooks.length && <EnhancedTable values={filteredBooks} />}
+          {Boolean(filteredBooks.length) && (
+            <EnhancedTable values={filteredBooks} />
+          )}
         </Grid>
       </Paper>
     </Box>
