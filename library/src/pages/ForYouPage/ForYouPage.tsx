@@ -435,6 +435,7 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
         </Grid>
       </Paper>
     );
+  };
 
   return <Paper sx={{ p: 10, mt: 8, width: '100%' }}>{renderForPage()}</Paper>;
 };
