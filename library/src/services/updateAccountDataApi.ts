@@ -2,7 +2,7 @@ import { API_URL } from '../constants/constants';
 
 export const updateAccountDataApi = async (body: any) => {
   try {
-    const rawResponse = await fetch(`${API_URL}/api/updateAccountData`, {
+    const rawResponse = await fetch(`${API_URL}/api/v1/signup`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
