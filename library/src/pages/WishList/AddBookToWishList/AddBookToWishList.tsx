@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import { checkUserName, emptyChecker } from '../../../utils/utils';
 import { addBookToWishList } from '../../../services/addBookToWishList';
 import { useDispatch } from 'react-redux';
-import { fetchAccountData } from '../../../redux/ducks/authentication';
+import { fetchAccountWishes } from '../../../redux/ducks/authentication';
 import {
   setAlertBody,
   setAlertSeverity,
@@ -37,7 +37,7 @@ export const AddBookToWishList: React.FC<AddBookToWishListProps> = ({}) => {
         author,
       });
       if (response) {
-        dispatch(fetchAccountData());
+        dispatch(fetchAccountWishes());
         dispatch(setAlertSeverity('success'));
         dispatch(setOpenAlert(true));
         dispatch(setAlertBody(`Книга ${name} была успешно добавлена`));
