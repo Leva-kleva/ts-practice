@@ -381,7 +381,7 @@ export const SearchBook: React.FC<SearchBookProps> = ({}) => {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => setTitle(event.target.value);
   return (
-    <Box sx={{ width: '100%', mt: 8 }}>
+    <Box sx={{ width: '100%', mt: 8, maxHeight: '100vh', overflow: 'auto' }}>
       <Paper sx={{ width: '100%', p: 2, pb: 8, position: 'relative' }}>
         <Grid item container xs={12} sx={{ mb: 2 }}>
           Поиск книги в библиотеке
