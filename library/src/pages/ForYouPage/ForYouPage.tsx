@@ -235,29 +235,6 @@ function EnhancedTable({ rows, setRows }: any) {
     (state: AppState) => state.authenticationReducer
   );
 
-  React.useEffect(() => {
-    if (!accountInfo) dispatch(fetchAccountData());
-    if (accountInfo?.sent_blank) {
-      const asyncHandler = async () => {
-        const response = await getRecomendations();
-        if (response) {
-          const fetchedRows = response.map((item: any) =>
-            createData(
-              item.id,
-              item.name,
-              item.author,
-              String(item.count),
-              item.topic
-            )
-          );
-          setRows(fetchedRows);
-        }
-      };
-
-      asyncHandler();
-    }
-  }, [accountInfo]);
-
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('id');
   const [page, setPage] = React.useState(0);
@@ -398,6 +375,28 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
       }
     }
   };
+  React.useEffect(() => {
+    if (!accountInfo) dispatch(fetchAccountData());
+    if (accountInfo?.sent_blank) {
+      const asyncHandler = async () => {
+        const response = await getRecomendations();
+        if (response) {
+          const fetchedRows = response.map((item: any) =>
+            createData(
+              item.id,
+              item.name,
+              item.author,
+              String(item.count),
+              item.topic
+            )
+          );
+          setRows(fetchedRows);
+        }
+      };
+
+      asyncHandler();
+    }
+  }, [accountInfo]);
   const renderForPage = () => {
     if (!accountInfo?.sent_blank) {
       return (
