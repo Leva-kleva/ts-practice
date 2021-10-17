@@ -380,7 +380,7 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
     if (accountInfo?.sent_blank) {
       const asyncHandler = async () => {
         const response = await getRecomendations();
-        if (response) {
+        if (response && names) {
           const fetchedRows = response.map((item: any) =>
             createData(
               item.id,
@@ -396,7 +396,7 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
 
       asyncHandler();
     }
-  }, [accountInfo]);
+  }, [accountInfo, names]);
   const renderForPage = () => {
     if (!accountInfo?.sent_blank) {
       return (
