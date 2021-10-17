@@ -386,7 +386,7 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
               item.id,
               item.name,
               item.author,
-              String(item.count),
+              String(item['cnt_curr']),
               item.topic
             )
           );
