@@ -224,15 +224,15 @@ function EnhancedTable({ values }: { values: any }) {
   const handleGetFromAnotherReader = async (bookId: number) => {
     const response = await sendNotificationToOwners({ book_id: bookId });
     // if (response) {
-    //   dispatch(setAlertSeverity('info'));
-    //   dispatch(setOpenAlert(true));
-    //   dispatch(setAlertBody('Ожидайте уведомления от телеграмм-бота'));
-    //   dispatch(setAlertTitle('Предложение взятия книги отправлены!'));
-    // } else {
-    dispatch(setAlertSeverity('error'));
+    dispatch(setAlertSeverity('info'));
     dispatch(setOpenAlert(true));
-    dispatch(setAlertBody('Проблемы с сервером, попробуйте позже'));
-    dispatch(setAlertTitle('Ой!'));
+    dispatch(setAlertBody('Ожидайте уведомления от телеграмм-бота'));
+    dispatch(setAlertTitle('Предложение взятия книги отправлены!'));
+    // } else {
+    // dispatch(setAlertSeverity('error'));
+    // dispatch(setOpenAlert(true));
+    // dispatch(setAlertBody('Проблемы с сервером, попробуйте позже'));
+    // dispatch(setAlertTitle('Ой!'));
     // }
   };
 
