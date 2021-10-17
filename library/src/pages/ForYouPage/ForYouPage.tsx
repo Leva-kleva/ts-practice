@@ -229,12 +229,11 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-function EnhancedTable() {
+function EnhancedTable({ rows, setRows }: any) {
   const dispatch = useDispatch();
   const { accountInfo } = useSelector(
     (state: AppState) => state.authenticationReducer
   );
-  const [rows, setRows] = React.useState<Array<any>>([]);
 
   React.useEffect(() => {
     if (!accountInfo) dispatch(fetchAccountData());
@@ -366,6 +365,7 @@ type ForYouPageProps = {};
 
 export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
   const dispatch = useDispatch();
+  const [rows, setRows] = React.useState<Array<any>>([]);
   React.useEffect(() => {
     dispatch(fetchAccountData());
   }, []);
@@ -434,7 +434,11 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
     return (
       <Paper sx={{ width: '100%', p: 2 }}>
         <Grid item container xs={12}>
-          {rows.length ? <EnhancedTable /> : <Loader />}
+          {rows.length ? (
+            <EnhancedTable rows={rows} setRows={setRows} />
+          ) : (
+            <Loader />
+          )}
         </Grid>
       </Paper>
     );
