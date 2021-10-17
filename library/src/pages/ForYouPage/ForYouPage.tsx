@@ -381,6 +381,12 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
       const asyncHandler = async () => {
         const response = await getRecomendations();
         if (response && names) {
+          console.log('response: ', response);
+          console.log('names: ', names);
+          console.log(
+            "names.find(({ id }) => id === item['author_id'])",
+            names.find(({ id }) => id === item['author_id'])
+          );
           const fetchedRows = response.map((item: any) =>
             createData(
               item.id,
