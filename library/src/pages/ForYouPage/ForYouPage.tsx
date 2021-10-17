@@ -25,6 +25,7 @@ import Typography from '@mui/material/Typography';
 import { sendBlank } from '../../services/sendBlank';
 import { fetchAccountData } from '../../redux/ducks/authentication';
 import { getRecomendations } from '../../services/recomendations';
+import Loader from '../../components/Loader';
 
 type BasicSelectProps = {
   value: string;
@@ -433,7 +434,7 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
     return (
       <Paper sx={{ width: '100%', p: 2 }}>
         <Grid item container xs={12}>
-          <EnhancedTable />
+          {rows.length ? <EnhancedTable /> : <Loader />}
         </Grid>
       </Paper>
     );
