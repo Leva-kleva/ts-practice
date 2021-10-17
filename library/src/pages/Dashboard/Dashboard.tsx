@@ -1,15 +1,30 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { Paper, Toolbar, Container } from '@mui/material';
+import { Paper, Toolbar, Container, TextField } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 
 import { AccountInfo } from './AccountInfo';
 import { LastReadingBooks } from './LastReadingBooks';
+import { linkWithTgBot } from '../../services/linkWithTgBot';
 
 type DashboardProps = {};
 
 export const Dashboard: React.FC<DashboardProps> = ({}) => {
+  const [link, setLink] = React.useState('');
+  const [isDeactive, setIsDeactive] = React.useState(true);
+  React.useEffect(() => {
+    const asyncFunc = async () => {
+      const response = await linkWithTgBot();
+      if (response) {
+        setIsDeactive(response['is_deactive']);
+        setLink(response.link);
+      }
+    };
+
+    asyncFunc();
+  }, []);
+
   return (
     <Box component="main">
       <Toolbar />
@@ -53,6 +68,23 @@ export const Dashboard: React.FC<DashboardProps> = ({}) => {
               <AccountInfo />
             </Paper>
           </Grid>
+          {!isDeactive && (
+            <Grid item xs={12}>
+              <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                <Grid item xs={12} sx={{ mb: 2 }}>
+                  Ссылка для связки с тг-ботом
+                </Grid>
+                <TextField
+                  label="Скопируйте ссылку"
+                  defaultValue={`https://t.me/mybot?start=${link}`}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                />
+              </Paper>
+            </Grid>
+          )}
         </Grid>
       </Container>
     </Box>
