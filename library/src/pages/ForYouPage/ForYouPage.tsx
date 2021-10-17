@@ -297,7 +297,7 @@ function EnhancedTable({ rows, setRows }: any) {
                       <TableCell>
                         {Boolean(+row.inStore) ? (
                           <Chip
-                            label="в наличие"
+                            label="в наличии"
                             color="success"
                             variant="outlined"
                           />
@@ -385,7 +385,7 @@ export const ForYouPage: React.FC<ForYouPageProps> = ({}) => {
             createData(
               item.id,
               item.name,
-              item.author,
+              names.find(({ id }) => id === item['author_id'])!.name,
               String(item['cnt_curr']),
               item.topic
             )
