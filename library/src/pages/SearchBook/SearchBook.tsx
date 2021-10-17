@@ -25,6 +25,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { getAuthors } from '../../services/getAuthors';
+import { sendNotificationToOwners } from '../../services/sendNotificationToOwners';
 
 interface Data {
   id: number;
@@ -190,6 +191,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 
 function EnhancedTable({ values }: { values: any }) {
   const rows = values;
+  const dispatch = useDispatch();
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Data>('id');
   const [page, setPage] = React.useState(0);
@@ -218,6 +220,21 @@ function EnhancedTable({ values }: { values: any }) {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+
+  const handleGetFromAnotherReader = async (bookId: number) => {
+    const response = await sendNotificationToOwners({ book_id: bookId });
+    if (response) {
+      dispatch(setAlertSeverity('info'));
+      dispatch(setOpenAlert(true));
+      dispatch(setAlertBody('Ожидайте уведомления от телеграмм-бота'));
+      dispatch(setAlertTitle('Предложение взятия книги отправлены!'));
+    } else {
+      dispatch(setAlertSeverity('error'));
+      dispatch(setOpenAlert(true));
+      dispatch(setAlertBody('Проблемы с сервером, попробуйте позже'));
+      dispatch(setAlertTitle('Ой!'));
+    }
+  };
 
   return (
     <Box sx={{ width: '100%', mt: 2 }}>
@@ -261,6 +278,9 @@ function EnhancedTable({ values }: { values: any }) {
                             label="Нет в наличии"
                             color="error"
                             variant="outlined"
+                            onClick={() =>
+                              handleGetFromAnotherReader(row.id as number)
+                            }
                           />
                         )}
                       </TableCell>
