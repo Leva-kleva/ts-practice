@@ -9,7 +9,14 @@ import {
   TextField,
   Button,
   SelectChangeEvent,
+  CardMedia,
 } from '@mui/material';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router';
@@ -20,6 +27,7 @@ import {
   setOpenAlert,
 } from '../../../redux/ducks/common';
 import { bindBookWithUser } from '../../../services/bindUser';
+import { getUserInfo } from '../../../services/getUserInfo';
 import { emptyChecker } from '../../../utils/utils';
 import { onChangeHandler } from '../../Authentication/authentication.utils';
 
@@ -62,23 +70,73 @@ const BasicSelect: React.FC<BasicSelectProps> = ({
   );
 };
 
+function createData(key: string, value: string) {
+  return { key, value };
+}
+
+export default function BasicTable({ rows }: any) {
+  return (
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Личные данные пользователя</TableCell>
+            <TableCell align="right"></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row: any) => (
+            <TableRow
+              key={row.key}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {row.key}
+              </TableCell>
+              <TableCell component="th" scope="row" align="right">
+                {row.value}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}
+
 export const BindBook: React.FC<BindBookProps> = ({}) => {
   const { names } = useSelector((state: AppState) => state.commonReducer);
   const [author, setAuthor] = React.useState<string>('');
   const handleChange = onChangeHandler;
   const location = useLocation();
+  const [user, setUser] = React.useState<any>('');
   const history = useHistory();
+  const [userId, setUserId] = React.useState<string>('');
+  React.useEffect(() => {
+    const [, value] = location.search.slice(1).split('=');
+    setUserId(value);
+    const asyncFunc = async () => {
+      const response = await getUserInfo(+value);
+      setUser(response);
+    };
+    asyncFunc();
+  }, []);
   const dispatch = useDispatch();
+  const rows = [
+    createData('ФИО', `${user.fname} ${user.sname}`),
+    createData('Телефон', user.phone ?? 'не указан'),
+    createData('Адрес', user.address ?? 'не указан'),
+    createData('email', user.email),
+  ];
 
   const [name, setName] = React.useState<string>('');
   const [errorMessage, setErrorMessage] = React.useState<string>('');
   const voidFunc = () => {};
   const handleLinkBook = async () => {
-    const [, value] = location.search.slice(1).split('=');
     const response = await bindBookWithUser({
       author,
       name,
-      userId: value,
+      userId,
     });
     if (response) {
       history.push('/');
@@ -136,6 +194,29 @@ export const BindBook: React.FC<BindBookProps> = ({}) => {
         >
           Прикрепить
         </Button>
+      </Grid>
+      <Grid container xs={12} justifyContent="space-between">
+        <Grid xs={8} item sx={{ mt: 10 }}>
+          <BasicTable rows={rows} />
+        </Grid>
+        <Grid xs={4} item>
+          <Paper
+            sx={{
+              p: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              height: 280,
+              mt: 8,
+            }}
+          >
+            <CardMedia
+              component="img"
+              height="248"
+              image="https://source.unsplash.com/NoRsyXmHGpI"
+              alt="green iguana"
+            />
+          </Paper>
+        </Grid>
       </Grid>
     </Paper>
   );

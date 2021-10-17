@@ -227,7 +227,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           id="tableTitle"
           component="div"
         >
-          Wish-лист
+          Книги, которые хотят прочитать
         </Typography>
       )}
       {numSelected > 0 && (

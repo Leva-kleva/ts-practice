@@ -76,7 +76,7 @@ export const Dashboard: React.FC<DashboardProps> = ({}) => {
                 </Grid>
                 <TextField
                   label="Скопируйте ссылку"
-                  defaultValue={`https://t.me/mybot?start=${link}`}
+                  defaultValue={`https://t.me/hackymalbot?start=${link}`}
                   InputProps={{
                     readOnly: true,
                   }}

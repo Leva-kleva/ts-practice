@@ -1,6 +1,6 @@
 import { API_URL } from '../constants/constants';
 
-export const getUserWishes = async (id: number) => {
+export const getUserInfo = async (id: number) => {
   try {
     const rawResponse = await fetch(`${API_URL}/api/v1/account/user/${id}`, {
       method: 'GET',
