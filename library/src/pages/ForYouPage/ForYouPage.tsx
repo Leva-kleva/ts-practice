@@ -241,7 +241,7 @@ function EnhancedTable() {
       const asyncHandler = async () => {
         const response = await getRecomendations();
         if (response) {
-          const fetchedRows = response.data.map((item: any) =>
+          const fetchedRows = response.map((item: any) =>
             createData(
               item.id,
               item.name,
