@@ -74,7 +74,7 @@ function createData(key: string, value: string) {
   return { key, value };
 }
 
-export default function BasicTable({ rows }: any) {
+function BasicTable({ rows }: any) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
